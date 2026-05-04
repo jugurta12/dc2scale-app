@@ -1,0 +1,51 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  documents Document[]
+}
+
+model Document {
+  id              String       @id @default(cuid())
+  type            String
+  reference       String       @unique
+  data            Json
+  createdAt       DateTime     @default(now())
+  
+  // Optionnels pour ne pas bloquer le formulaire
+  authorId        String?
+  author          User?        @relation(fields: [authorId], references: [id])
+
+  expediteurId    String?
+  expediteur      Expediteur?  @relation(fields: [expediteurId], references: [id])
+  destinataireId  String?
+  destinataire    Destinataire? @relation(fields: [destinataireId], references: [id])
+}
+
+model Destinataire {
+  id           String     @id @default(cuid())
+  nom          String     @unique
+  raison       String?
+  informations String?
+  adresse      String?
+  documents    Document[]
+}
+
+model Expediteur {
+  id        String     @id @default(cuid())
+  nom       String     @unique
+  transport String?
+  raison    String?
+  adresse   String?
+  contact   String?
+  documents Document[]
+}
