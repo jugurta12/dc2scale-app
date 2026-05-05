@@ -92,3 +92,16 @@ export async function getContacts() {
   })
   return { expediteurs, destinataires }
 }
+
+export async function getRecentDocuments() {
+  const documents = await prisma.document.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 5,
+    select: {
+      reference: true,
+      type: true,
+      createdAt: true,
+    }
+  })
+  return documents
+}

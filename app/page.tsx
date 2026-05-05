@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { signOut } from "next-auth/react"
 import Link from "next/link"
+import { getRecentDocuments } from "@/app/actions/documents"
 
 const templates = [
   {
@@ -83,6 +84,19 @@ const counts: Record<string, number> = {
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("Tous")
   const [search, setSearch] = useState("")
+  const [recentDocs, setRecentDocs] = useState<any[]>([])
+
+  useEffect(() => {
+    async function loadRecent() {
+      try {
+        const data = await getRecentDocuments()
+        setRecentDocs(data)
+      } catch (error) {
+        console.error("Erreur chargement historique:", error)
+      }
+    }
+    loadRecent()
+  }, [])
 
   const filtered = templates
     .filter(t => activeTab === "Tous" || t.category === activeTab.toUpperCase())
@@ -122,6 +136,30 @@ export default function HomePage() {
             </button>
           </div>
         ))}
+
+        {/* HISTORIQUE 5 derniers documents */}
+        {recentDocs.length > 0 && (
+          <div className="mt-4">
+            <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mb-2">
+              Récents
+            </p>
+            <div className="flex flex-col gap-0.5">
+              {recentDocs.map((doc, i) => (
+                <div key={i} className="px-3 py-2 rounded-lg hover:bg-zinc-800/60 transition-colors cursor-default group">
+                  <div className="flex items-center justify-between">
+                    <span className="text-zinc-300 text-xs truncate max-w-[110px] group-hover:text-white transition-colors">
+                      {doc.reference}
+                    </span>
+                    <span className="text-[9px] text-zinc-600 shrink-0 ml-1">
+                      {new Date(doc.createdAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-zinc-600 truncate mt-0.5">{doc.type}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-auto px-3">
           <button
