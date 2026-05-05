@@ -1,5 +1,6 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
+import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { prisma } from "@/lib/prisma"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,10 +11,19 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
+      if (!user.email) return false
+
+      // Crée le user en base s'il n'existe pas encore
+      await prisma.user.upsert({
+        where: { email: user.email },
+        update: { name: user.name },
+        create: {
+          email: user.email,
+          name: user.name,
+        },
+      })
+
       return true
     },
   },
 }
-
-export default NextAuth(authOptions)
-

@@ -6,57 +6,57 @@ import Link from "next/link"
 
 const templates = [
   {
-    id: 1, icon: "📋", category: "PROPOSITIONS", title: "Proposition de colocation",
+    id: 1, icon: "≡", category: "PROPOSITIONS", title: "Proposition de colocation",
     desc: "Devis détaillé : baies, énergie kVA, cross-connects, Remote Hands. Synchronisé PennyLane.",
     pages: "9-14 p.", uses: 142, color: "text-emerald-400",
   },
   {
-    id: 2, icon: "📋", category: "PROPOSITIONS", title: "Renouvellement contrat",
+    id: 2, icon: "≡", category: "PROPOSITIONS", title: "Renouvellement contrat",
     desc: "Reconduction et avenant tarifaire avec indexation IPC.",
     pages: "4-6 p.", uses: 38, color: "text-emerald-400",
   },
   {
-    id: 3, icon: "📋", category: "PROPOSITIONS", title: "Forfait Remote Hands",
+    id: 3, icon: "≡", category: "PROPOSITIONS", title: "Forfait Remote Hands",
     desc: "Souscription mensuelle d'heures Mains & Yeux.",
     pages: "3-5 p.", uses: 27, color: "text-emerald-400",
   },
   {
-    id: 4, icon: "📁", category: "DOCUMENTS", title: "Contrat SLA",
+    id: 4, icon: "⊟", category: "DOCUMENTS", title: "Contrat SLA",
     desc: "Engagements de service, pénalités, périmètre, escalade.",
     pages: "9-8 p.", uses: 51, color: "text-blue-400",
   },
   {
-    id: 5, icon: "📁", category: "DOCUMENTS", title: "Mémoire technique (AO)",
+    id: 5, icon: "⊟", category: "DOCUMENTS", title: "Mémoire technique (AO)",
     desc: "Réponse appel d'offres : architecture, sécurité, RSE.",
     pages: "35-60 p.", uses: 18, color: "text-blue-400",
   },
   {
-    id: 6, icon: "📁", category: "DOCUMENTS", title: "Catalogue Remote Hands",
+    id: 6, icon: "⊟", category: "DOCUMENTS", title: "Catalogue Remote Hands",
     desc: "Grille HO/HNO niveaux 1/2/3 — feuille de service & prix.",
     pages: "2 p.", uses: 33, color: "text-blue-400",
   },
   {
-    id: 7, icon: "📁", category: "DOCUMENTS", title: "NDA / Accord de confidentialité",
+    id: 7, icon: "⊟", category: "DOCUMENTS", title: "NDA / Accord de confidentialité",
     desc: "Accord mutuel pour visite ou échange technique.",
     pages: "3 p.", uses: 22, color: "text-blue-400",
   },
   {
-    id: 8, icon: "♻️", category: "CIRCULARDC", title: "Confirmation d'affrètement",
+    id: 8, icon: "↺", category: "CIRCULARDC", title: "Confirmation d'affrètement",
     desc: "Mandat de transport routier : FM/TO, expéditeur, destinataire, prix gré à gré.",
     pages: "1 p.", uses: 124, color: "text-teal-400",
   },
   {
-    id: 9, icon: "♻️", category: "CIRCULARDC", title: "Bon de livraison",
+    id: 9, icon: "↺", category: "CIRCULARDC", title: "Bon de livraison",
     desc: "Réception matériel sur site avec QR code traçabilité.",
     pages: "2 p.", uses: 89, color: "text-teal-400",
   },
   {
-    id: 10, icon: "♻️", category: "CIRCULARDC", title: "Bordereau de retrait DEEE",
+    id: 10, icon: "↺", category: "CIRCULARDC", title: "Bordereau de retrait DEEE",
     desc: "Sortie matériel reconditionnement / valorisation.",
     pages: "2 p.", uses: 50, color: "text-teal-400",
   },
   {
-    id: 11, icon: "♻️", category: "CIRCULARDC", title: "Éco-bilan reconditionnement",
+    id: 11, icon: "↺", category: "CIRCULARDC", title: "Éco-bilan reconditionnement",
     desc: "Traçabilité tonnes CO₂eq évitées, pesée DEEE.",
     pages: "3 p.", uses: 41, color: "text-teal-400",
   },
@@ -66,10 +66,10 @@ const tabs = ["Tous", "Propositions", "Documents", "CircularDC"]
 
 const navItems = [
   { label: "Modèles & brouillons", icon: "⊞", section: "PRODUCTION", tab: "Tous", badge: null },
-  { label: "Propositions", icon: "≡", section: null, tab: "Propositions", badge: 3 },
-  { label: "Documents", icon: "⊟", section: null, tab: "Documents", badge: 4 },
-  { label: "CircularDC", icon: "↺", section: null, tab: "CircularDC", badge: 6 },
-  { label: "Intégrations", icon: "⚭", section: "CONNEXIONS", tab: null, badge: 3 },
+  { label: "Propositions", icon: "≡", section: null, tab: "Propositions", badge: null },
+  { label: "Documents", icon: "⊟", section: null, tab: "Documents", badge: null },
+  { label: "CircularDC", icon: "↺", section: null, tab: "CircularDC", badge: null },
+  { label: "Intégrations", icon: "⚭", section: "CONNEXIONS", tab: null, badge: null },
   { label: "Paramètres", icon: "⚙", section: "SYSTÈME", tab: null, badge: null },
 ]
 
