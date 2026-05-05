@@ -187,23 +187,19 @@ const styles = StyleSheet.create({
 
 interface AffretementData {
   reference: string
-  // FM / TO
+  numeroCommande?: string // Ajouté ici
   fmNom: string
   fmAdresse: string
   toNom: string
-  // Expéditeur
   expediteurNom: string
   expediteurContact: string
   dateEnlevement: string
-  // Destinataire
   destinataireNom: string
   destinataireContact: string
   dateLivraison: string
-  // Détail
   descriptionTransport: string
   poids: string
   dimensions: string
-  // Prix
   tarification: string
 }
 
@@ -242,8 +238,10 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
 
         <View style={styles.divider} />
 
-        {/* TITRE */}
-        <Text style={styles.title}>Confirmation d'affrètement N° {data.reference}</Text>
+        {/* TITRE — Utilise numeroCommande si présent, sinon reference */}
+        <Text style={styles.title}>
+            Confirmation d'affrètement N° {data.numeroCommande || data.reference}
+        </Text>
 
         {/* TABLEAU PRINCIPAL */}
         <View style={styles.mainTable}>

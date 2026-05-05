@@ -49,3 +49,11 @@ model Expediteur {
   contact   String?
   documents Document[]
 }
+
+model Template {
+  id          Int      @id // L'ID que tu utilises (ex: 8)
+  nom         String   // Le nom (ex: "Confirmation d'Affrètement")
+  description String?  // La petite phrase en dessous du titre
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}

@@ -64,7 +64,6 @@ export default function CreateDocumentPage() {
     setSuggestions({ type: 'exp', list: [] })
   }
 
-  // ← SEUL BLOC MODIFIÉ : génère le PDF après enregistrement en base
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -73,6 +72,7 @@ export default function CreateDocumentPage() {
       if (result.success) {
         const pdfData = {
           reference: result.reference || `REF-${Date.now()}`,
+          numeroCommande: formData.numeroCommande, // ← AJOUTÉ ICI
           fmNom: "Service Transport",
           fmAdresse: "520 Blochairn Rd\nGlasgow G21 2DZ",
           toNom: formData.destinataireNom,
@@ -87,11 +87,13 @@ export default function CreateDocumentPage() {
           dimensions: formData.dimensions,
           tarification: formData.tarification,
         }
+        
         const blob = await pdf(<ConfirmationAffretementPDF data={pdfData} />).toBlob()
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
-        a.download = `affretement-${pdfData.reference}.pdf`
+        // Le nom du fichier utilise le numéro de commande s'il existe
+        a.download = `affretement-${formData.numeroCommande || pdfData.reference}.pdf`
         a.click()
         URL.revokeObjectURL(url)
         router.push("/")
