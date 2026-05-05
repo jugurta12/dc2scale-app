@@ -1,8 +1,23 @@
 "use server"
 import { prisma } from "@/lib/prisma"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 export async function createFullDocument(formData: any) {
   try {
+    // Récupérer le user connecté
+    const session = await getServerSession(authOptions)
+    console.log("SESSION:", JSON.stringify(session))
+
+    const user = await prisma.user.findUnique({
+      where: { email: session?.user?.email || "" }
+    })
+    console.log("USER TROUVÉ:", JSON.stringify(user))
+
+    if (!user) {
+      return { success: false, reference: "", error: "Utilisateur introuvable" }
+    }
+
     // 1. Expéditeur
     const expediteur = await prisma.expediteur.upsert({
       where: { nom: formData.expediteurNom },
@@ -50,11 +65,10 @@ export async function createFullDocument(formData: any) {
           tarification: formData.tarification,
           numeroCommande: formData.numeroCommande,
         },
-        authorId: "a-remplacer-par-session-user",
+        authorId: user.id,
       }
     })
 
-    // ← return ici dans createFullDocument
     return { 
       success: true, 
       reference: newDocument.reference,
@@ -70,7 +84,6 @@ export async function createFullDocument(formData: any) {
 }
 
 export async function getContacts() {
-  // ← getContacts retourne juste les contacts, rien d'autre
   const expediteurs = await prisma.expediteur.findMany({ 
     select: { nom: true, adresse: true, raison: true, contact: true, transport: true } 
   })

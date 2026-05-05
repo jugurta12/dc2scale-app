@@ -94,7 +94,7 @@ export default function HomePage() {
       {/* Sidebar */}
       <aside className="w-52 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1">
         <div className="px-3 mb-6">
-          <span className="text-white font-semibold text-sm tracking-wide">Shelter2</span>
+          <span className="text-white font-semibold text-sm tracking-wide">Dc2Scale</span>
         </div>
 
         {navItems.map((item, i) => (
@@ -139,7 +139,7 @@ export default function HomePage() {
         {/* Topbar */}
         <header className="h-12 border-b border-zinc-800 flex items-center justify-between px-6">
           <span className="text-zinc-500 text-sm">
-            Shelter2 / <span className="text-zinc-300">Templates</span>
+            Dc2Scale / <span className="text-zinc-300">Templates</span>
           </span>
           <div className="flex items-center gap-2 text-zinc-400 text-sm border border-zinc-800 rounded-lg px-3 py-1.5">
             <span>🔍</span>
