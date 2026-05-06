@@ -79,6 +79,7 @@ export default function HomePage() {
 const [activeTab, setActiveTab] = useState("Tous")
 const [search, setSearch] = useState("")
 const [recentDocs, setRecentDocs] = useState<any[]>([])
+const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
 useEffect(() => {
 async function loadRecent() {
@@ -92,12 +93,10 @@ console.error("Erreur chargement historique:", error)
 loadRecent()
 }, [])
 
-// 1. D'abord on filtre les templates par la recherche textuelle
 const searchFiltered = templates.filter(t =>
 t.title.toLowerCase().includes(search.toLowerCase())
 )
 
-// 2. On calcule les compteurs dynamiquement basés sur la recherche
 const dynamicCounts: Record<string, number> = {
 Tous: searchFiltered.length,
 Propositions: searchFiltered.filter(t => t.category === "PROPOSITIONS").length,
@@ -105,7 +104,6 @@ Documents: searchFiltered.filter(t => t.category === "DOCUMENTS").length,
 CircularDC: searchFiltered.filter(t => t.category === "CIRCULARDC").length,
 }
 
-// 3. Enfin on filtre pour l'affichage selon l'onglet actif
 const filtered = searchFiltered.filter(t =>
 activeTab === "Tous" || t.category === activeTab.toUpperCase()
 )
@@ -113,8 +111,19 @@ activeTab === "Tous" || t.category === activeTab.toUpperCase()
 return (
 <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
+{/* Overlay pour mobile */}
+{isSidebarOpen && (
+<div 
+className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
+onClick={() => setIsSidebarOpen(false)}
+/>
+)}
+
 {/* Sidebar */}
-<aside className="w-52 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1">
+<aside className={`
+fixed inset-y-0 left-0 z-50 w-52 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1 transition-transform duration-300 ease-in-out
+lg:relative lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+`}>
 <div className="mb-6 flex justify-center w-full">
 <Image src="/assets/Datacenters.png" alt="Logo" width={120} height={40} className="priority" />
 </div>
@@ -127,7 +136,10 @@ return (
 </p>
 )}
 <button
-onClick={() => item.tab && setActiveTab(item.tab)}
+onClick={() => {
+item.tab && setActiveTab(item.tab)
+setIsSidebarOpen(false)
+}}
 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
 item.tab && activeTab === item.tab
 ? "bg-zinc-800 text-white"
@@ -142,7 +154,6 @@ item.tab && activeTab === item.tab
 </div>
 ))}
 
-{/* HISTORIQUE */}
 {recentDocs.length > 0 && (
 <div className="mt-4">
 <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mb-2">
@@ -176,14 +187,20 @@ className="w-full text-left text-xs text-zinc-500 hover:text-zinc-300 transition
 </div>
 </aside>
 
-{/* Main */}
-<div className="flex-1 flex flex-col">
+<div className="flex-1 flex flex-col min-w-0">
 
-{/* Topbar Dynamique */}
 <header className="h-12 border-b border-zinc-800 flex items-center justify-between px-6">
+<div className="flex items-center gap-4">
+<button 
+className="lg:hidden text-zinc-400 hover:text-white"
+onClick={() => setIsSidebarOpen(true)}
+>
+<span>☰</span>
+</button>
 <span className="text-zinc-500 text-sm">
 Dc2Scale / <span className="text-zinc-300">{activeTab}</span>
 </span>
+</div>
 <div className="flex items-center gap-2 text-zinc-400 text-sm border border-zinc-800 rounded-lg px-3 py-1.5">
 <input
 value={search}
@@ -194,14 +211,13 @@ className="bg-transparent outline-none text-sm placeholder-zinc-600 w-48"
 </div>
 </header>
 
-{/* Content */}
-<main className="flex-1 p-8">
-<div className="flex items-start justify-between mb-2">
+<main className="flex-1 p-8 overflow-x-hidden">
+<div className="flex flex-col-reverse md:flex-row md:items-start md:justify-between mb-2 gap-4">
 <div>
 <h1 className="text-2xl font-semibold text-white">Quel document souhaitez-vous produire ?</h1>
 <p className="text-zinc-400 text-sm mt-1">Choisissez un modèle pour démarrer un nouveau document, ou reprenez un brouillon en cours.</p>
 </div>
-<div className="flex items-center gap-3">
+<div className="flex items-center gap-3 shrink-0">
 <button className="flex items-center gap-2 text-sm text-zinc-300 border border-zinc-700 hover:border-zinc-500 px-4 py-2 rounded-lg transition-colors">
 ⊞ Gérer les modèles
 </button>
@@ -211,13 +227,12 @@ className="bg-transparent outline-none text-sm placeholder-zinc-600 w-48"
 </div>
 </div>
 
-{/* Tabs avec compteurs dynamiques */}
-<div className="flex items-center gap-1 mt-6 mb-6 border-b border-zinc-800">
+<div className="flex items-center gap-1 mt-6 mb-6 border-b border-zinc-800 overflow-x-auto no-scrollbar">
 {tabs.map(tab => (
 <button
 key={tab}
 onClick={() => setActiveTab(tab)}
-className={`px-4 py-2 text-sm rounded-t transition-colors flex items-center gap-1.5 ${
+className={`px-4 py-2 text-sm rounded-t transition-colors flex items-center gap-1.5 whitespace-nowrap ${
 activeTab === tab
 ? "text-white border-b-2 border-white"
 : "text-zinc-500 hover:text-zinc-300"
@@ -233,8 +248,8 @@ activeTab === tab ? "bg-zinc-700 text-zinc-300" : "bg-zinc-800 text-zinc-500"
 ))}
 </div>
 
-{/* Grid */}
-<div className="grid grid-cols-5 gap-3">
+{/* Grid responsive : 2 colonnes (mobile), 4 colonnes (md/tablette), 5 colonnes (xl/desktop) */}
+<div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-3">
 {filtered.length > 0 ? filtered.map(t => (
 <Link
 key={t.id}
@@ -255,7 +270,7 @@ className="bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p
 </div>
 </Link>
 )) : (
-<div className="col-span-5 text-center text-zinc-600 py-16">
+<div className="col-span-2 md:col-span-4 xl:col-span-5 text-center text-zinc-600 py-16">
 Aucun document trouvé pour "<span className="text-zinc-400">{search}</span>"
 </div>
 )}
