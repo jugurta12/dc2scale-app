@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { createFullDocument, getContacts } from "@/app/actions/documents" 
 import { pdf } from "@react-pdf/renderer"
 import { ConfirmationAffretementPDF } from "@/app/components/ConfirmationAffretement"
+import Image from 'next/image'
 
 // Import des nouveaux blocs
 import ExpediteurBlock from "@/app/components/forms/ExpediteurBlock"
@@ -121,7 +122,9 @@ export default function CreateDocumentPage() {
   return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <aside className="w-52 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1">
-        <div className="px-3 mb-6"><span className="text-white font-semibold text-sm tracking-wide">Shelter2</span></div>
+        <div className="mb-6 flex justify-center w-full">
+            <Image src="/assets/Datacenters.png" alt="Logo" width={120} height={40} className="priority" />
+        </div>
         <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mt-2 mb-1">PRODUCTION</p>
         <button onClick={() => router.push('/')} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-zinc-400 hover:bg-zinc-800/60 transition-colors"><span>⊞</span> Modèles</button>
       </aside>
