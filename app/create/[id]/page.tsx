@@ -70,7 +70,29 @@ export default function CreateDocumentPage() {
     try {
       const result = await createFullDocument(formData)
       if (result.success) {
-        const pdfData = { ...formData, reference: result.reference || `REF-${Date.now()}`, fmNom: "Service Transport", fmAdresse: "520 Blochairn Rd\nGlasgow G21 2DZ", destinataireContact: formData.expediteurContact }
+        // Reconstruction précise de l'objet pour satisfaire TypeScript et le composant PDF
+        const pdfData = {
+          reference: result.reference || `REF-${Date.now()}`,
+          numeroCommande: formData.numeroCommande,
+          fmNom: "Service Transport",
+          fmAdresse: "520 Blochairn Rd\nGlasgow G21 2DZ",
+          
+          // Mapping des champs pour le PDF
+          toNom: formData.destinataireNom, 
+          expediteurNom: formData.expediteurNom,
+          expediteurContact: formData.expediteurContact,
+          dateEnlevement: formData.dateEnlevement,
+          
+          destinataireNom: formData.destinataireNom,
+          destinataireContact: formData.expediteurContact, 
+          dateLivraison: formData.dateLivraison,
+          
+          descriptionTransport: formData.descriptionTransport,
+          poids: formData.poids,
+          dimensions: formData.dimensions,
+          tarification: formData.tarification,
+        }
+
         const blob = await pdf(<ConfirmationAffretementPDF data={pdfData} />).toBlob()
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
@@ -81,7 +103,12 @@ export default function CreateDocumentPage() {
         router.push("/")
         router.refresh()
       }
-    } catch (error) { alert("Erreur lors de l'enregistrement.") } finally { setLoading(false) }
+    } catch (error) { 
+      console.error(error)
+      alert("Erreur lors de l'enregistrement.") 
+    } finally { 
+      setLoading(false) 
+    }
   }
 
   if (id !== "8") return <div className="text-white text-center mt-20">Modèle non configuré</div>
@@ -100,7 +127,9 @@ export default function CreateDocumentPage() {
       </aside>
 
       <div className="flex-1 flex flex-col">
-        <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">Shelter2 / CircularDC</header>
+        <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
+            Dc2Scale / CircularDC / <span className="text-zinc-300 ml-1">Confirmation d'affrètement</span>
+        </header>
         <main className="flex-1 p-8 overflow-y-auto">
           <h1 className="text-2xl font-semibold text-white mb-8">Confirmation d'Affrètement</h1>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,8 +142,19 @@ export default function CreateDocumentPage() {
             <DetailsBlock formData={formData} setFormData={setFormData} inputClass={inputClass} />
 
             <div className="flex items-center gap-3 pt-2">
-              <button type="submit" disabled={loading} className={`flex-1 py-3 rounded-lg font-medium text-sm ${loading ? "bg-zinc-800" : "bg-emerald-500 text-black"}`}>
-                {loading ? "Génération..." : "Valider l'affrètement"}
+              <button 
+                type="submit" 
+                disabled={loading} 
+                className={`flex-1 py-3 rounded-lg font-medium text-sm transition-all ${loading ? "bg-zinc-800 text-zinc-500" : "bg-emerald-500 hover:bg-emerald-400 text-black"}`}
+              >
+                {loading ? "Génération du PDF..." : "Valider l'affrètement"}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-5 py-3 rounded-lg text-sm text-zinc-400 border border-zinc-700 hover:border-zinc-500 transition-colors"
+              >
+                Annuler
               </button>
             </div>
           </form>

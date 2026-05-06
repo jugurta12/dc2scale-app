@@ -74,13 +74,6 @@ const navItems = [
   { label: "Paramètres", icon: "⚙", section: "SYSTÈME", tab: null, badge: null },
 ]
 
-const counts: Record<string, number> = {
-  Tous: templates.length,
-  Propositions: templates.filter(t => t.category === "PROPOSITIONS").length,
-  Documents: templates.filter(t => t.category === "DOCUMENTS").length,
-  CircularDC: templates.filter(t => t.category === "CIRCULARDC").length,
-}
-
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("Tous")
   const [search, setSearch] = useState("")
@@ -98,9 +91,23 @@ export default function HomePage() {
     loadRecent()
   }, [])
 
-  const filtered = templates
-    .filter(t => activeTab === "Tous" || t.category === activeTab.toUpperCase())
-    .filter(t => t.title.toLowerCase().includes(search.toLowerCase()))
+  // 1. D'abord on filtre les templates par la recherche textuelle
+  const searchFiltered = templates.filter(t => 
+    t.title.toLowerCase().includes(search.toLowerCase())
+  )
+
+  // 2. On calcule les compteurs dynamiquement basés sur la recherche
+  const dynamicCounts: Record<string, number> = {
+    Tous: searchFiltered.length,
+    Propositions: searchFiltered.filter(t => t.category === "PROPOSITIONS").length,
+    Documents: searchFiltered.filter(t => t.category === "DOCUMENTS").length,
+    CircularDC: searchFiltered.filter(t => t.category === "CIRCULARDC").length,
+  }
+
+  // 3. Enfin on filtre pour l'affichage selon l'onglet actif
+  const filtered = searchFiltered.filter(t => 
+    activeTab === "Tous" || t.category === activeTab.toUpperCase()
+  )
 
   return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -130,14 +137,11 @@ export default function HomePage() {
                 <span>{item.icon}</span>
                 {item.label}
               </span>
-              {item.badge && (
-                <span className="text-[10px] bg-zinc-700 text-zinc-300 rounded px-1.5 py-0.5">{item.badge}</span>
-              )}
             </button>
           </div>
         ))}
 
-        {/* HISTORIQUE 5 derniers documents */}
+        {/* HISTORIQUE */}
         {recentDocs.length > 0 && (
           <div className="mt-4">
             <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mb-2">
@@ -174,10 +178,10 @@ export default function HomePage() {
       {/* Main */}
       <div className="flex-1 flex flex-col">
 
-        {/* Topbar */}
+        {/* Topbar Dynamique */}
         <header className="h-12 border-b border-zinc-800 flex items-center justify-between px-6">
           <span className="text-zinc-500 text-sm">
-            Dc2Scale / <span className="text-zinc-300">Templates</span>
+            Dc2Scale / <span className="text-zinc-300">{activeTab}</span>
           </span>
           <div className="flex items-center gap-2 text-zinc-400 text-sm border border-zinc-800 rounded-lg px-3 py-1.5">
             <span>🔍</span>
@@ -207,7 +211,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Tabs */}
+          {/* Tabs avec compteurs dynamiques */}
           <div className="flex items-center gap-1 mt-6 mb-6 border-b border-zinc-800">
             {tabs.map(tab => (
               <button
@@ -223,7 +227,7 @@ export default function HomePage() {
                 <span className={`text-[10px] px-1.5 py-0.5 rounded ${
                   activeTab === tab ? "bg-zinc-700 text-zinc-300" : "bg-zinc-800 text-zinc-500"
                 }`}>
-                  {counts[tab]}
+                  {dynamicCounts[tab]}
                 </span>
               </button>
             ))}

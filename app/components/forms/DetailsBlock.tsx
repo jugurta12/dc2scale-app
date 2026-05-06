@@ -18,18 +18,18 @@ export default function DetailsBlock({ formData, setFormData, inputClass }: Deta
         <div>
           <label className="text-[10px] text-emerald-400 font-semibold uppercase tracking-widest ml-1">Tarification convenue (€)</label>
           <input
-            placeholder="ex: 1200"
+            placeholder="...€"
             value={formData.tarification}
-            className="w-full mt-1 bg-emerald-500/5 border border-emerald-500/20 rounded-lg px-4 py-3 text-lg font-semibold text-emerald-400 outline-none focus:border-emerald-500/50 transition-colors placeholder-emerald-900"
+            className="w-full mt-1 bg-zinc-800 border border-zinc-500/20 rounded-lg px-4 py-3 text-lg font-semibold text-emerald-400 outline-none focus:border-emerald-500/50 transition-colors placeholder-emerald-900"
             onChange={(e) => setFormData({ ...formData, tarification: e.target.value })}
           />
         </div>
         <div>
           <label className="text-[10px] text-zinc-400 font-semibold uppercase tracking-widest ml-1">Numéro de commande</label>
           <input
-            placeholder="ex: BC-2024-001"
+            placeholder="123456789"
             value={formData.numeroCommande}
-            className="w-full mt-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-lg font-semibold text-zinc-300 outline-none focus:border-zinc-500 transition-colors placeholder-zinc-700"
+            className="w-full mt-1 bg-zinc-800 border border-zinc-500/20 rounded-lg px-4 py-3 text-lg font-semibold text-zinc-300 outline-none focus:border-zinc-500/50 transition-colors placeholder-zinc-700"
             onChange={(e) => setFormData({ ...formData, numeroCommande: e.target.value })}
           />
         </div>
