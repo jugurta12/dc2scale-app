@@ -6,6 +6,21 @@ import Link from "next/link"
 import { getRecentDocuments } from "@/app/actions/documents"
 import Image from 'next/image'
 
+// Composant Skeleton pour l'historique
+const RecentDocsSkeleton = () => (
+  <div className="flex flex-col gap-0.5 animate-pulse">
+    {[1, 2, 3].map((i) => (
+      <div key={i} className="px-3 py-2 rounded-lg">
+        <div className="flex items-center justify-between">
+          <div className="h-3 w-20 bg-zinc-800 rounded" />
+          <div className="h-2 w-8 bg-zinc-800 rounded" />
+        </div>
+        <div className="h-2 w-24 bg-zinc-900 rounded mt-2" />
+      </div>
+    ))}
+  </div>
+)
+
 const templates = [
 {
 id: 1, icon: "≡", category: "PROPOSITIONS", title: "Proposition de colocation",
@@ -79,6 +94,7 @@ export default function HomePage() {
 const [activeTab, setActiveTab] = useState("Tous")
 const [search, setSearch] = useState("")
 const [recentDocs, setRecentDocs] = useState<any[]>([])
+const [isLoading, setIsLoading] = useState(true) // État pour le chargement
 const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
 useEffect(() => {
@@ -88,6 +104,8 @@ const data = await getRecentDocuments()
 setRecentDocs(data)
 } catch (error) {
 console.error("Erreur chargement historique:", error)
+} finally {
+setIsLoading(false) // Fin du chargement
 }
 }
 loadRecent()
@@ -154,28 +172,34 @@ item.tab && activeTab === item.tab
 </div>
 ))}
 
-{recentDocs.length > 0 && (
+{/* HISTORIQUE AVEC SKELETON */}
 <div className="mt-4">
-<p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mb-2">
-Récents
-</p>
-<div className="flex flex-col gap-0.5">
-{recentDocs.map((doc, i) => (
-<div key={i} className="px-3 py-2 rounded-lg hover:bg-zinc-800/60 transition-colors cursor-default group">
-<div className="flex items-center justify-between">
-<span className="text-zinc-300 text-xs truncate max-w-[110px] group-hover:text-white transition-colors">
-{doc.reference}
-</span>
-<span className="text-[9px] text-zinc-600 shrink-0 ml-1">
-{new Date(doc.createdAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })}
-</span>
+  <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mb-2">
+    Récents
+  </p>
+  
+  {isLoading ? (
+    <RecentDocsSkeleton />
+  ) : recentDocs.length > 0 ? (
+    <div className="flex flex-col gap-0.5">
+      {recentDocs.map((doc, i) => (
+        <div key={i} className="px-3 py-2 rounded-lg hover:bg-zinc-800/60 transition-colors cursor-default group">
+          <div className="flex items-center justify-between">
+            <span className="text-zinc-300 text-xs truncate max-w-[110px] group-hover:text-white transition-colors">
+              {doc.reference}
+            </span>
+            <span className="text-[9px] text-zinc-600 shrink-0 ml-1">
+              {new Date(doc.createdAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })}
+            </span>
+          </div>
+          <p className="text-[10px] text-zinc-600 truncate mt-0.5">{doc.type}</p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="px-3 text-[10px] text-zinc-600 italic">Aucun document récent</p>
+  )}
 </div>
-<p className="text-[10px] text-zinc-600 truncate mt-0.5">{doc.type}</p>
-</div>
-))}
-</div>
-</div>
-)}
 
 <div className="mt-auto px-3">
 <button
@@ -248,7 +272,6 @@ activeTab === tab ? "bg-zinc-700 text-zinc-300" : "bg-zinc-800 text-zinc-500"
 ))}
 </div>
 
-{/* Grid responsive : 2 colonnes (mobile), 4 colonnes (md/tablette), 5 colonnes (xl/desktop) */}
 <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-3">
 {filtered.length > 0 ? filtered.map(t => (
 <Link
