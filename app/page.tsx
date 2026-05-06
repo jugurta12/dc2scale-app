@@ -257,7 +257,7 @@ href={`/create/${t.id}`}
 className="bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-xl p-4 cursor-pointer transition-all hover:bg-zinc-800/80 group transform hover:-translate-y-1"
 >
 <div className="flex items-start justify-between mb-3">
-<span className={`text-lg ${t.color}`}>{t.icon}</span>
+<span className={`text-xl ${t.color}`}>{t.icon}</span>
 <span className="text-[10px] text-zinc-500">{t.uses}× ce trim.</span>
 </div>
 <h3 className="text-sm font-semibold text-white mb-1 leading-snug group-hover:text-emerald-400 transition-colors">
