@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -15,20 +15,17 @@ model User {
 }
 
 model Document {
-  id              String       @id @default(cuid())
-  type            String
-  reference       String       @unique
-  data            Json
-  createdAt       DateTime     @default(now())
-  
-  // Optionnels pour ne pas bloquer le formulaire
-  authorId        String?
-  author          User?        @relation(fields: [authorId], references: [id])
-
-  expediteurId    String?
-  expediteur      Expediteur?  @relation(fields: [expediteurId], references: [id])
-  destinataireId  String?
-  destinataire    Destinataire? @relation(fields: [destinataireId], references: [id])
+  id             String        @id @default(cuid())
+  type           String
+  reference      String        @unique
+  data           Json
+  createdAt      DateTime      @default(now())
+  authorId       String?
+  destinataireId String?
+  expediteurId   String?
+  author         User?         @relation(fields: [authorId], references: [id])
+  destinataire   Destinataire? @relation(fields: [destinataireId], references: [id])
+  expediteur     Expediteur?   @relation(fields: [expediteurId], references: [id])
 }
 
 model Destinataire {
@@ -51,9 +48,9 @@ model Expediteur {
 }
 
 model Template {
-  id          Int      @id // L'ID que tu utilises (ex: 8)
-  nom         String   // Le nom (ex: "Confirmation d'Affrètement")
-  description String?  // La petite phrase en dessous du titre
+  id          Int      @id
+  nom         String
+  description String?
   actif       Boolean  @default(true)
   createdAt   DateTime @default(now())
 }
