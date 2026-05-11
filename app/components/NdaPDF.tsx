@@ -175,13 +175,27 @@ export function NdaPDF({ data }: { data: NdaData }) {
           the contemplated Agreement and use other than for such purpose shall be considered to be a breach of this Agreement.
         </Text>
 
-        <Text style={styles.sectionTitle}>7. USE.  </Text>
+        <Text style={styles.sectionTitle}>8. ACKNOWLEDGEMENTS.  </Text>
         <Text style={styles.body}>
-          Confidential Information exchanged between the Parties is considered loaned for use solely in connection with considering, evaluating and negotiating 
-          the contemplated Agreement and use other than for such purpose shall be considered to be a breach of this Agreement.
+            {"\n"}
         </Text>
+        {[
+          ["(a)", "Except in the case of fraud, no representation, warranty or undertaking (express or implied) is made with respect to the accuracy, completeness, reasonableness or otherwise in respect of the use of the Confidential Information supplied by the other Party."],
+          ["(b)", "This Agreement shall not be construed as granting or conferring any rights, by licence or otherwise, in any Confidential Information disclosed hereunder."],
+          ["(c)", "Each Party is solely responsible for making its own decisions in relation to the Confidential Information and any other documentation or data supplied by or on behalf of the other Party."],
+        ].map(([bullet, text], i) => (
+          <View key={i} style={styles.listItem}>
+            <Text style={styles.bullet}>{bullet}</Text>
+            <Text style={styles.listText}>{text}</Text>
+          </View>
+        ))}
 
-
+         <Text style={styles.sectionTitle}>9. 	OBLIGATIONS. </Text>
+        <Text style={styles.body}>
+           Any disclosure of Confidential Information made by a Party under this Agreement shall not obligate either of the Parties to provide any additional
+            Confidential Information. In addition, neither the disclosure of Confidential Information nor any other fact or circumstance in connection with this
+             Agreement will in any way obligate either Party to proceed further with or enter into the contemplated transaction or any other or further agreement with the other Party.
+        </Text>
 
 
 
