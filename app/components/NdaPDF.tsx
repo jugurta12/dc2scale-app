@@ -191,7 +191,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
         ))}
 
          <Text style={styles.sectionTitle}>9. 	OBLIGATIONS. </Text>
-        <Text style={styles.body}>
+        <Text style={styles.body}>{"\n"}
            Any disclosure of Confidential Information made by a Party under this Agreement shall not obligate either of the Parties to provide any additional
             Confidential Information. In addition, neither the disclosure of Confidential Information nor any other fact or circumstance in connection with this
              Agreement will in any way obligate either Party to proceed further with or enter into the contemplated transaction or any other or further agreement with the other Party.
