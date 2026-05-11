@@ -101,7 +101,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
           <View style={styles.tableRow}>
             <Text style={styles.tableLabel}>Between</Text>
             <Text style={styles.tableValue}>
-              <Text style={styles.bold}>{data.partnerName}</Text> (Reg. No: {data.partnerRegNumber || "__________"}) (the “Partner”) whose registered office address is {data.partnerAddress}
+              <Text style={styles.bold}>{data.partnerName}</Text> Reg. No: {data.partnerRegNumber || "__________"}(the “Partner”) whose registered office address is {data.partnerAddress}
             </Text>
           </View>
           <View style={styles.tableRowLast}>
