@@ -83,7 +83,13 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>1. CONFIDENTIAL INFORMATION</Text>
         <Text style={styles.body}>
-          Confidential Information includes all information of a confidential nature, whether written or oral, including but not limited to proposals, business plans, trade secrets, financial statements, and technical information. Specifically:
+           The Parties hereby agree that Confidential Information includes items and materials disclosed by or to the Parties or their “Affiliates”. {"\n\n"}
+
+            The Confidential Information can appear in many forms including, but not limited to, proposals, business plans, digital or written presentations, 
+            financial statements, legal documents, corporate information and documents, tax statements, trade secrets, marketing materials, customers list, 
+            suppliers information, maps, blueprints, company’s reports, technical information, codes, handwritten notes, drawings, company’s e-mails, 
+            on display screens or in computer memory storage devices and media. Confidential Information includes also in specifics, without limitation, 
+            the following relating to either the Parties or their Affiliates: {"\n\n"}
         </Text>
         {[
           ["(a)", "Pricing and other financial terms, quotes, and fees."],
