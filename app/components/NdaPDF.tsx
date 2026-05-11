@@ -330,7 +330,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
       <Text style={styles.nameBold}>Olivier MIS, Chief Executive Officer {"\n"}</Text>
     </View>
     <View style={styles.signatureCol}>
-      <Text style={styles.labelSmall}>Print name and title [cite: 92]</Text>
+      <Text style={styles.labelSmall}>Print name and title {"\n"}</Text>
       <Text style={styles.nameBold}>Gautier MARSOT LEMAIRE, Managing Director </Text>
     </View>
   </View>
@@ -353,32 +353,32 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
   {/* BLOC PARTNER */}
   <View style={{ marginTop: 40 }}>
-    <Text style={[styles.partyTitle, { color: "#000", backgroundColor: "#fff" }]}>
-      [{data.partnerName.toUpperCase()}] [cite: 97]
+   <Text style={styles.partyTitle}>
+      [{data.partnerName.toUpperCase()}] 
     </Text>
     <Text style={styles.labelSmall}>Authorised signature:{"\n\n"}</Text>
 
     <View style={styles.signatureRow}>
       <View style={styles.signatureCol}>
-        <Text style={styles.labelSmall}>Print name and title [cite: 99]</Text>
+        <Text style={styles.labelSmall}>Print name and title {"\n"}</Text>
       </View>
       <View style={styles.signatureCol}>
-        <Text style={styles.labelSmall}>Print name and title [cite: 99]</Text>
+        <Text style={styles.labelSmall}>Print name and title {"\n"}</Text>
       </View>
     </View>
     
     <View style={styles.fullLine} />
     
     <View style={styles.signatureRow}>
-      <Text style={styles.labelSmall}>Signature [cite: 100]</Text>
-      <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature [cite: 100]</Text>
+      <Text style={styles.labelSmall}>Signature {"\n"}</Text>
+      <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature {"\n"}</Text>
     </View>
     
     <View style={styles.fullLine} />
     
     <View style={styles.signatureRow}>
-      <Text style={styles.labelSmall}>Date [cite: 101]</Text>
-      <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date [cite: 102]</Text>
+      <Text style={styles.labelSmall}>Date {"\n"}</Text>
+      <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date {"\n"}</Text>
     </View>
     
     <View style={styles.fullLine} />
