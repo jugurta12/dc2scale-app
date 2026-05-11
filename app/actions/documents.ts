@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/auth"
 
 export async function createFullDocument(formData: any) {
   try {
-    // Récupérer le user connecté
     const session = await getServerSession(authOptions)
     console.log("SESSION:", JSON.stringify(session))
 
@@ -18,45 +17,76 @@ export async function createFullDocument(formData: any) {
       return { success: false, reference: "", error: "Utilisateur introuvable" }
     }
 
-    // 1. Expéditeur
-    const expediteur = await prisma.expediteur.upsert({
-      where: { nom: formData.expediteurNom },
-      update: { 
-        adresse: formData.expediteurAdresse,
-        transport: formData.expediteurTransport || "Routier",
-      },
-      create: {
-        nom: formData.expediteurNom,
-        adresse: formData.expediteurAdresse,
-        transport: formData.expediteurTransport || "Routier",
-        raison: formData.expediteurRaison || "Standard",
-        contact: formData.expediteurContact || "Non spécifié"
-      },
-    })
+    const isNda = formData.docType === "NDA / Accord de confidentialité"
 
-    // 2. Destinataire
-    const destinataire = await prisma.destinataire.upsert({
-      where: { nom: formData.destinataireNom },
-      update: { 
-        adresse: formData.destinataireAdresse,
-        informations: formData.destinataireAdresse,
-      },
-      create: {
-        nom: formData.destinataireNom,
-        adresse: formData.destinataireAdresse,
-        informations: formData.destinataireAdresse,
-        raison: formData.destinataireRaison || "Livraison"
-      },
-    })
+    let expediteurId: string | undefined
+    let destinataireId: string | undefined
+    let partenaireId: string | undefined
 
-    // 3. Document
+    if (isNda) {
+      // Pour le NDA : on enregistre le partenaire comme client
+      const partenaire = await prisma.client.upsert({
+        where: { nom: formData.partnerName },
+        update: {
+          adresse: formData.partnerAddress,
+          numeroImmatriculation: formData.partnerRegNumber || null,
+        },
+        create: {
+          nom: formData.partnerName,
+          adresse: formData.partnerAddress,
+          numeroImmatriculation: formData.partnerRegNumber || null,
+        },
+      })
+      partenaireId = partenaire.id
+    } else {
+      // Pour les autres docs : expéditeur + destinataire
+      const expediteur = await prisma.expediteur.upsert({
+        where: { nom: formData.expediteurNom },
+        update: {
+          adresse: formData.expediteurAdresse,
+          transport: formData.expediteurTransport || "Routier",
+        },
+        create: {
+          nom: formData.expediteurNom,
+          adresse: formData.expediteurAdresse,
+          transport: formData.expediteurTransport || "Routier",
+          raison: formData.expediteurRaison || "Standard",
+          contact: formData.expediteurContact || "Non spécifié",
+        },
+      })
+
+      const destinataire = await prisma.destinataire.upsert({
+        where: { nom: formData.destinataireNom },
+        update: {
+          adresse: formData.destinataireAdresse,
+          informations: formData.destinataireAdresse,
+        },
+        create: {
+          nom: formData.destinataireNom,
+          adresse: formData.destinataireAdresse,
+          informations: formData.destinataireAdresse,
+          raison: formData.destinataireRaison || "Livraison",
+        },
+      })
+
+      expediteurId = expediteur.id
+      destinataireId = destinataire.id
+    }
+
     const newDocument = await prisma.document.create({
       data: {
         type: formData.docType || "Confirmation d'Affrètement",
         reference: `REF-${Date.now()}`,
-        expediteurId: expediteur.id,
-        destinataireId: destinataire.id,
-        data: {
+        ...(expediteurId && { expediteurId }),
+        ...(destinataireId && { destinataireId }),
+        ...(partenaireId && { clientId: partenaireId }),
+        data: isNda ? {
+          partnerName: formData.partnerName,
+          partnerRegNumber: formData.partnerRegNumber,
+          partnerAddress: formData.partnerAddress,
+          purpose: formData.purpose,
+          effectiveDate: formData.effectiveDate,
+        } : {
           dateEnlevement: formData.dateEnlevement,
           dateLivraison: formData.dateLivraison,
           descriptionTransport: formData.descriptionTransport,
@@ -69,12 +99,14 @@ export async function createFullDocument(formData: any) {
       }
     })
 
-    return { 
-      success: true, 
+    return {
+      success: true,
       reference: newDocument.reference,
       documentId: newDocument.id,
-      expediteur: expediteur.nom,
-      destinataire: destinataire.nom 
+      ...(isNda ? { partenaire: formData.partnerName } : {
+        expediteur: formData.expediteurNom,
+        destinataire: formData.destinataireNom,
+      })
     }
 
   } catch (error) {
@@ -84,11 +116,11 @@ export async function createFullDocument(formData: any) {
 }
 
 export async function getContacts() {
-  const expediteurs = await prisma.expediteur.findMany({ 
-    select: { nom: true, adresse: true, raison: true, contact: true, transport: true } 
+  const expediteurs = await prisma.expediteur.findMany({
+    select: { nom: true, adresse: true, raison: true, contact: true, transport: true }
   })
-  const destinataires = await prisma.destinataire.findMany({ 
-    select: { nom: true, adresse: true, raison: true } 
+  const destinataires = await prisma.destinataire.findMany({
+    select: { nom: true, adresse: true, raison: true }
   })
   return { expediteurs, destinataires }
 }
@@ -97,12 +129,7 @@ export async function getRecentDocuments() {
   const documents = await prisma.document.findMany({
     orderBy: { createdAt: "desc" },
     take: 5,
-    select: {
-      reference: true,
-      type: true,
-      createdAt: true,
-    }
+    select: { reference: true, type: true, createdAt: true }
   })
   return documents
 }
-
