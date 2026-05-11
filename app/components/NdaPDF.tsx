@@ -92,7 +92,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
             the following relating to either the Parties or their Affiliates: {"\n\n"}
         </Text>
         {[
-          ["(a)", "Pricing and other financial terms, quotes, and fees."],
+          ["(a)", "pricing and other financial terms, including, without limitation, quotes, charges and fees;"],
           ["(b)", "Network routes, mapping, topologies, network architecture plans, and data center colocation information."],
           ["(c)", "Identities of commercial partners, joint venturers, agents, and clients."],
           ["(d)", "Data related to systems, equipment, operations, policies, or procedures."],
