@@ -322,12 +322,12 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
   {/* BLOC DC2SCALE */}
   <Text style={styles.partyTitle}>DC2SCALE </Text>
-  <Text style={styles.labelSmall}>Authorised signature: [cite: 91]</Text>
+  <Text style={styles.labelSmall}>Authorised signature:{"\n\n"}</Text>
 
   <View style={styles.signatureRow}>
     <View style={styles.signatureCol}>
-      <Text style={styles.labelSmall}>Print name and title [cite: 92]</Text>
-      <Text style={styles.nameBold}>Olivier MIS, Chief Executive Officer </Text>
+      <Text style={styles.labelSmall}>Print name and title {"\n"}</Text>
+      <Text style={styles.nameBold}>Olivier MIS, Chief Executive Officer {"\n"}</Text>
     </View>
     <View style={styles.signatureCol}>
       <Text style={styles.labelSmall}>Print name and title [cite: 92]</Text>
@@ -338,15 +338,15 @@ export function NdaPDF({ data }: { data: NdaData }) {
   <View style={styles.fullLine} />
   
   <View style={styles.signatureRow}>
-    <Text style={styles.labelSmall}>Signature [cite: 94]</Text>
-    <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature [cite: 94]</Text>
+    <Text style={styles.labelSmall}>Signature {"\n"}</Text>
+    <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature {"\n"}</Text>
   </View>
   
   <View style={styles.fullLine} />
   
   <View style={styles.signatureRow}>
-    <Text style={styles.labelSmall}>Date [cite: 95]</Text>
-    <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date [cite: 96]</Text>
+    <Text style={styles.labelSmall}>Date {"\n"}</Text>
+    <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date {"\n"}</Text>
   </View>
   
   <View style={styles.fullLine} />
@@ -356,7 +356,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
     <Text style={[styles.partyTitle, { color: "#000", backgroundColor: "#fff" }]}>
       [{data.partnerName.toUpperCase()}] [cite: 97]
     </Text>
-    <Text style={styles.labelSmall}>Authorised signature: [cite: 98]</Text>
+    <Text style={styles.labelSmall}>Authorised signature:{"\n\n"}</Text>
 
     <View style={styles.signatureRow}>
       <View style={styles.signatureCol}>
