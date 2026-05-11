@@ -142,8 +142,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
           ["(b)", "which the Receiving Party can prove was known to the Receiving Party or already lawfully in its possession and not subject to this Agreement or any other obligations of confidentiality;"],
           ["(c)", "which is received from a third party without restriction and without breach of this Agreement or any other obligations of confidentiality;"],
           ["(d)", "which is independently developed by the Receiving Party without using any Confidential Information of the other Party and demonstrated by its contemporaneous business records; or"],
-          ["(e)", "upon the written request of the Disclosing Party, the Receiving Party shall promptly return the original and all copies of all Confidential Information or any part thereof and all Records to the Disclosing Party or certify to the Disclosing Party that the Confidential Information and all Records have been destroyed."],
-          ["(f)", "The Receiving Party acknowledges that as a result of the use or disclosure of proprietary information in a manner inconsistent with this Agreement will cause irreparable harm to the Disclosing Party, the Disclosing Party will have the right to fair and injunctive relief to prevent the unauthorized use or disclosure, and damage caused by such unauthorized use or disclosure."],
+          ["(e)", "because of its nature is not capable of protection as confidential information even if it remains secret."],
         ].map(([bullet, text], i) => (
           <View key={i} style={styles.listItem}>
             <Text style={styles.bullet}>{bullet}</Text>
@@ -156,7 +155,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>5. COMPELLED DISCLOSURE</Text>
         <Text style={styles.body}>
-          A Receiving Party may disclose information pursuant to a binding court order, provided it notifies the Disclosing Party immediately to allow for a protective order.
+          A Receiving Party may disclose Confidential Information in a legal proceeding or pursuant to a binding order of a court or any government body, agency or regulatory body provided that the Receiving Party uses all reasonable endeavours (i) to provide the Disclosing Party with notice and copy of such order prior to any such disclosure to enable the Disclosing Party, and, at the Disclosing Party’s request, to reasonably assist the Disclosing Party, to challenge such order and/or obtain protective relief therefrom, (ii) to furnish only that portion of the Confidential Information that it is legally obliged to disclose and (iii) to consult with the Disclosing Party with a view to agreeing the timing and content of such disclosure.
         </Text>
 
         <Text style={styles.sectionTitle}>10. RETURN OR DESTRUCTION</Text>
