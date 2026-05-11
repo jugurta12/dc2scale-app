@@ -247,10 +247,20 @@ export function NdaPDF({ data }: { data: NdaData }) {
         {"\n\n"}If the Receiving Party is requested by a government entity or other third party to disclose any Confidential Information, it will promptly notify the Disclosing Party to allow the latter to seek a protective order or take other appropriate action, at the sole cost and expense of the Disclosing Party.  The Receiving Party will also cooperate in the Disclosing Party's efforts to obtain a protective order or other reasonable assurance that confidential treatment will be afforded the Confidential Information.  If in the absence of a protective order the Receiving Party is compelled as a matter of law to disclose the Confidential Information based upon the written opinion of the Receiving Party’s counsel, the Receiving Party may disclose to the government entity or other third party compelling the disclosure only the part of the Confidential Information as required by law to be disclosed. 
         </Text>
 
-        <Text style={styles.sectionTitle}>16. 	NON-ASSIGNMENT OF RIGHTS. </Text>
+        <Text style={styles.sectionTitle}>18. 	RIGHTS OF THIRD PARTIES.  </Text>
         <Text style={styles.body}>{"\n"}
-        Neither party hereto shall assign in whole or in part its rights or obligations under this Agreement without the express written consent of the other Party.
-         This Agreement shall be binding upon and shall inure to the benefit of each of the Party’s successors and permitted assigns.
+        The terms of this Agreement or any of them may be varied, amended or modified or this Agreement may be suspended, cancelled or terminated by agreement 
+        in writing between the Parties or this Agreement may be rescinded (in each case), without the consent of any such third party.
+        </Text>
+
+        <Text style={styles.sectionTitle}>19. 	BREACH OF CONFIDENTIALITY.  </Text>
+        <Text style={styles.body}>{"\n"}
+        Each Party acknowledges that a breach of this Agreement will result in irreparable harm to the Party whose Confidential Information has been disclosed and that Party will be entitled to a temporary, preliminary and permanent injunction or a protection order for any actual or threatened with the provisions of this Agreement. Each Party accepts and consents to the introduction of an injunction or protection order by any competent court upon presentation by the Party whose Confidential Information has been disclosed that its Confidential Information is used or disclosed contrary to the terms of this Agreement. The foregoing provisions are in addition to, and not limited to, remedies against specific performance, direct and indirect damages and any other remedy provided by law, in equity or otherwise, that the Parties may incur  in the event of a violation. No arbitration provision will apply to a temporary restraining order, preliminary injunction or other interim remedy to prohibit a violation or threat of violation of the provisions of this Agreement.
+        </Text>
+
+        <Text style={styles.sectionTitle}> 20. 	GOVERNING LAW AND JURISDICTION.  </Text>
+        <Text style={styles.body}>{"\n"}
+            This Agreement shall be governed by and construed in accordance with the laws of France.
         </Text>
 
 
