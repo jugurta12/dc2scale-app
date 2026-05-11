@@ -135,7 +135,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>4. CONDITIONS</Text>
         <Text style={styles.body}>
-          Confidential Information shall not include any information:
+          {"\n\n"}Confidential Information shall not include any information:
         </Text>
         {[
           ["(a)", "which is generally available to the public through no wrongful act of the Receiving Party;"],
