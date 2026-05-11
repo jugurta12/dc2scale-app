@@ -156,7 +156,11 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>5. COMPELLED DISCLOSURE</Text>
         <Text style={styles.body}>
-          A Receiving Party may disclose Confidential Information in a legal proceeding or pursuant to a binding order of a court or any government body, agency or regulatory body provided that the Receiving Party uses all reasonable endeavours (i) to provide the Disclosing Party with notice and copy of such order prior to any such disclosure to enable the Disclosing Party, and, at the Disclosing Party’s request, to reasonably assist the Disclosing Party, to challenge such order and/or obtain protective relief therefrom, (ii) to furnish only that portion of the Confidential Information that it is legally obliged to disclose and (iii) to consult with the Disclosing Party with a view to agreeing the timing and content of such disclosure.
+          A Receiving Party may disclose Confidential Information in a legal proceeding or pursuant to a binding order of a court or any government body,
+           agency or regulatory body provided that the Receiving Party uses all reasonable endeavours (i) to provide the Disclosing Party with notice and
+            copy of such order prior to any such disclosure to enable the Disclosing Party, and, at the Disclosing Party’s request, to reasonably assist the Disclosing Party,
+             to challenge such order and/or obtain protective relief therefrom, (ii) to furnish only that portion of the Confidential Information that it is 
+             legally obliged to disclose and (iii) to consult with the Disclosing Party with a view to agreeing the timing and content of such disclosure.
         </Text>
 
         <Text style={styles.sectionTitle}>10. RETURN OR DESTRUCTION</Text>
