@@ -25,13 +25,48 @@ const styles = StyleSheet.create({
   bold: { fontFamily: "Helvetica-Bold" },
   whereas: { fontSize: 8.5, marginBottom: 10, marginTop: 5, lineHeight: 1.4 },
 
-  // Signatures
-  signatureSection: { marginTop: 25, break: "avoid" },
-  signatureTitleHeader: { fontFamily: "Helvetica-Bold", fontSize: 9, marginBottom: 15 },
-  signatureGrid: { flexDirection: "row", justifyContent: "space-between" },
-  signatureBox: { width: "45%" },
-  signatureLine: { borderBottomWidth: 1, borderColor: "#000", marginTop: 30, marginBottom: 5 },
-  signatureSubText: { fontSize: 7, color: "#444" },
+  // Nouveaux Styles Signatures (Match capture d'écran)
+  signaturePage: {
+    marginTop: 20,
+    break: 'before', // Force le saut de page
+  },
+  signatureMainTitle: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 8,
+    marginBottom: 30,
+  },
+  partyTitle: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 10,
+    color: "#10b981", // Vert DC2SCALE
+    marginBottom: 15,
+    textTransform: "uppercase"
+  },
+  signatureRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  signatureCol: {
+    width: "48%",
+  },
+  labelSmall: {
+    fontSize: 7,
+    color: "#444",
+    marginBottom: 10,
+  },
+  nameBold: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 8,
+    marginBottom: 2,
+  },
+  fullLine: {
+    borderBottomWidth: 1,
+    borderColor: "#000",
+    width: "100%",
+    marginTop: 2,
+    marginBottom: 15,
+  },
   
   footer: { position: "absolute", bottom: 20, left: 50, right: 50, borderTopWidth: 0.5, borderColor: "#ccc", paddingTop: 5, flexDirection: "row", justifyContent: "space-between", fontSize: 7, color: "#999" },
 })
@@ -279,33 +314,76 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
 
         {/* Signature Page - Force break to keep together if needed */}
-        <View style={styles.signatureSection}>
-          <Text style={styles.signatureTitleHeader}>IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed.</Text>
-          
-          <View style={styles.signatureGrid}>
-            {/* DC2SCALE */}
-            <View style={styles.signatureBox}>
-              <Text style={styles.bold}>DC2SCALE</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Olivier MIS, Chief Executive Officer</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Gautier MARSOT LEMAIRE, Managing Director</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Date</Text>
-            </View>
+        {/* SECTION SIGNATURE - NOUVELLE PAGE AUTOMATIQUE */}
+<View style={styles.signaturePage}>
+  <Text style={styles.signatureMainTitle}>
+    IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed as of the date below. [cite: 89]
+  </Text>
 
-            {/* PARTNER */}
-            <View style={styles.signatureBox}>
-              <Text style={styles.bold}>{data.partnerName.toUpperCase()}</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Print Name and Title</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Signature</Text>
-              <View style={styles.signatureLine} />
-              <Text style={styles.signatureSubText}>Date</Text>
-            </View>
-          </View>
-        </View>
+  {/* BLOC DC2SCALE */}
+  <Text style={styles.partyTitle}>DC2SCALE </Text>
+  <Text style={styles.labelSmall}>Authorised signature: [cite: 91]</Text>
+
+  <View style={styles.signatureRow}>
+    <View style={styles.signatureCol}>
+      <Text style={styles.labelSmall}>Print name and title [cite: 92]</Text>
+      <Text style={styles.nameBold}>Olivier MIS, Chief Executive Officer </Text>
+    </View>
+    <View style={styles.signatureCol}>
+      <Text style={styles.labelSmall}>Print name and title [cite: 92]</Text>
+      <Text style={styles.nameBold}>Gautier MARSOT LEMAIRE, Managing Director </Text>
+    </View>
+  </View>
+  
+  <View style={styles.fullLine} />
+  
+  <View style={styles.signatureRow}>
+    <Text style={styles.labelSmall}>Signature [cite: 94]</Text>
+    <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature [cite: 94]</Text>
+  </View>
+  
+  <View style={styles.fullLine} />
+  
+  <View style={styles.signatureRow}>
+    <Text style={styles.labelSmall}>Date [cite: 95]</Text>
+    <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date [cite: 96]</Text>
+  </View>
+  
+  <View style={styles.fullLine} />
+
+  {/* BLOC PARTNER */}
+  <View style={{ marginTop: 40 }}>
+    <Text style={[styles.partyTitle, { color: "#000", backgroundColor: "#fff" }]}>
+      [{data.partnerName.toUpperCase()}] [cite: 97]
+    </Text>
+    <Text style={styles.labelSmall}>Authorised signature: [cite: 98]</Text>
+
+    <View style={styles.signatureRow}>
+      <View style={styles.signatureCol}>
+        <Text style={styles.labelSmall}>Print name and title [cite: 99]</Text>
+      </View>
+      <View style={styles.signatureCol}>
+        <Text style={styles.labelSmall}>Print name and title [cite: 99]</Text>
+      </View>
+    </View>
+    
+    <View style={styles.fullLine} />
+    
+    <View style={styles.signatureRow}>
+      <Text style={styles.labelSmall}>Signature [cite: 100]</Text>
+      <Text style={[styles.labelSmall, { marginRight: "40%" }]}>Signature [cite: 100]</Text>
+    </View>
+    
+    <View style={styles.fullLine} />
+    
+    <View style={styles.signatureRow}>
+      <Text style={styles.labelSmall}>Date [cite: 101]</Text>
+      <Text style={[styles.labelSmall, { marginRight: "43%" }]}>Date [cite: 102]</Text>
+    </View>
+    
+    <View style={styles.fullLine} />
+  </View>
+</View>
 
         <View style={styles.footer} fixed>
           <Text>DC2SCALE NDA 2024</Text>
