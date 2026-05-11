@@ -111,6 +111,20 @@ export function NdaPDF({ data }: { data: NdaData }) {
         <Text style={styles.body}>
          Except as specifically permitted by the terms of this Agreement, and in consideration of the disclosure of the Confidential Information, each Party agrees to keep confidential any Confidential Information furnished to each other for a period of three (3) years from the date of disclosure, whether or not such date is before the effective date of this Agreement. The Receiving Party shall:
         </Text>
+
+        {[
+          ["(a)", "not without the Disclosing Party’s written consent disclose or permit the disclosure of the Confidential Information disclosed to it provided that the Receiving Party provided that, subject to clause 6, it may disclose the Confidential Information to those employees and officers of the Receiving Party who have a need to know the Confidential Information in order to fulfil the purpose for which the Confidential Information was disclosed;"],
+          ["(b)", "treat the Confidential Information as a trade secret and sole property of the Disclosing Party;"],
+          ["(c)", "take all necessary and proper security precautions (and at least as great as those it takes to safeguard its own confidential information) to safeguard every part of the Confidential Information to prevent it from being disclosed or otherwise made available to any third party except as permitted by this Agreement;"],
+          ["(d)", "only make such records or embodiments of Confidential Information (“Records”) as are strictly necessary for the purposes set out in this Agreement and clearly mark all Records as confidential; and"],
+          ["(e)", "upon the written request of the Disclosing Party, the Receiving Party shall promptly return the original and all copies of all Confidential Information or any part thereof and all Records to the Disclosing Party or certify to the Disclosing Party that the Confidential Information and all Records have been destroyed."],
+          ["(f)", "The Receiving Party acknowledges that as a result of the use or disclosure of proprietary information in a manner inconsistent with this Agreement will cause irreparable harm to the Disclosing Party, the Disclosing Party will have the right to fair and injunctive relief to prevent the unauthorized use or disclosure, and damage caused by such unauthorized use or disclosure."],
+        ].map(([bullet, text], i) => (
+          <View key={i} style={styles.listItem}>
+            <Text style={styles.bullet}>{bullet}</Text>
+            <Text style={styles.listText}>{text}</Text>
+          </View>
+        ))}
         
 
 
