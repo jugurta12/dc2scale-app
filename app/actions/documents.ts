@@ -18,11 +18,12 @@ export async function createFullDocument(formData: any) {
     }
 
     const typeLower = (formData.docType || "").toLowerCase();
-  const isNda = typeLower.includes("nda") || typeLower.includes("confidentialité");
+    const isNda = typeLower.includes("nda") || typeLower.includes("confidentialité");
 
-    let expediteurId: string | undefined
-    let destinataireId: string | undefined
-    let partenaireId: string | undefined
+    // On utilise null par défaut pour que Prisma accepte les champs optionnels
+    let expediteurId: string | null = null
+    let destinataireId: string | null = null
+    let clientId: string | null = null
 
     if (isNda) {
       // Pour le NDA : on enregistre le partenaire comme client
@@ -38,7 +39,7 @@ export async function createFullDocument(formData: any) {
           numeroImmatriculation: formData.partnerRegNumber || null,
         },
       })
-      partenaireId = partenaire.id
+      clientId = partenaire.id
     } else {
       // Pour les autres docs : expéditeur + destinataire
       const expediteur = await prisma.expediteur.upsert({
@@ -74,13 +75,16 @@ export async function createFullDocument(formData: any) {
       destinataireId = destinataire.id
     }
 
+    // On prépare l'objet data de manière propre
     const newDocument = await prisma.document.create({
       data: {
         type: formData.docType || "Confirmation d'Affrètement",
         reference: `REF-${Date.now()}`,
-        ...(expediteurId && { expediteurId }),
-        ...(destinataireId && { destinataireId }),
-        ...(partenaireId && { clientId: partenaireId }),
+        authorId: user.id,
+        // On passe les IDs s'ils existent, sinon Prisma ignore grâce au null/undefined bien géré
+        expediteurId: expediteurId,
+        destinataireId: destinataireId,
+        clientId: clientId,
         data: isNda ? {
           partnerName: formData.partnerName,
           partnerRegNumber: formData.partnerRegNumber,
@@ -96,7 +100,6 @@ export async function createFullDocument(formData: any) {
           tarification: formData.tarification,
           numeroCommande: formData.numeroCommande,
         },
-        authorId: user.id,
       }
     })
 
@@ -112,7 +115,8 @@ export async function createFullDocument(formData: any) {
 
   } catch (error) {
     console.error("Erreur lors de la sauvegarde:", error)
-    return { success: false, reference: "" }
+    // On renvoie l'erreur pour comprendre ce qui bloque dans la console
+    return { success: false, reference: "", error: String(error) }
   }
 }
 

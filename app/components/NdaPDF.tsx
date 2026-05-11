@@ -440,7 +440,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
         {/* SECTION SIGNATURE - NOUVELLE PAGE AUTOMATIQUE */}
 <View break style={styles.signaturePage}>
   <Text style={styles.signatureMainTitle}>
-    IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed as of the date below. [cite: 89]
+    IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed as of the date below. 
   </Text>
 
   {/* BLOC DC2SCALE */}
