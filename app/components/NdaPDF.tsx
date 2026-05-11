@@ -130,13 +130,29 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>3. TERM</Text>
         <Text style={styles.body}>
-          This Agreement shall expire three (3) years from the date hereof, or upon termination of the evaluation. Obligations survive for three (3) years following termination.
+         The Agreement shall expire either three (3) years from the date hereof, or upon the termination of the evaluation or pursuit of the Agreement between the Parties; however, the Receiving Party’s obligations with respect to the Confidential Information shall survive for three (3) years following the date of such termination of this Agreement (the “Term”).
         </Text>
 
         <Text style={styles.sectionTitle}>4. CONDITIONS</Text>
         <Text style={styles.body}>
-          Confidential Information shall not include information generally available to the public, already known to the Receiving Party, or independently developed without using the Disclosing Party's information.
+          Confidential Information shall not include any information:
         </Text>
+        {[
+          ["(a)", "which is generally available to the public through no wrongful act of the Receiving Party;"],
+          ["(b)", "which the Receiving Party can prove was known to the Receiving Party or already lawfully in its possession and not subject to this Agreement or any other obligations of confidentiality;"],
+          ["(c)", "which is received from a third party without restriction and without breach of this Agreement or any other obligations of confidentiality;"],
+          ["(d)", "which is independently developed by the Receiving Party without using any Confidential Information of the other Party and demonstrated by its contemporaneous business records; or"],
+          ["(e)", "upon the written request of the Disclosing Party, the Receiving Party shall promptly return the original and all copies of all Confidential Information or any part thereof and all Records to the Disclosing Party or certify to the Disclosing Party that the Confidential Information and all Records have been destroyed."],
+          ["(f)", "The Receiving Party acknowledges that as a result of the use or disclosure of proprietary information in a manner inconsistent with this Agreement will cause irreparable harm to the Disclosing Party, the Disclosing Party will have the right to fair and injunctive relief to prevent the unauthorized use or disclosure, and damage caused by such unauthorized use or disclosure."],
+        ].map(([bullet, text], i) => (
+          <View key={i} style={styles.listItem}>
+            <Text style={styles.bullet}>{bullet}</Text>
+            <Text style={styles.listText}>{text}</Text>
+          </View>
+        ))}
+
+
+
 
         <Text style={styles.sectionTitle}>5. COMPELLED DISCLOSURE</Text>
         <Text style={styles.body}>
