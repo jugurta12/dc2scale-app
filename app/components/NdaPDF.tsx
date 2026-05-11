@@ -234,10 +234,16 @@ export function NdaPDF({ data }: { data: NdaData }) {
          validity or enforceability in that jurisdiction of any other provision of this Agreement. 
         </Text>
 
-        <Text style={styles.sectionTitle}>15. 	SEVERABILITY.  </Text>
+        <Text style={styles.sectionTitle}>16. 	NON-ASSIGNMENT OF RIGHTS. </Text>
         <Text style={styles.body}>{"\n"}
-        If any provision of this Agreement is or becomes illegal, invalid or unenforceable in any jurisdiction, that shall not affectthe legality,
-         validity or enforceability in that jurisdiction of any other provision of this Agreement. 
+        Neither party hereto shall assign in whole or in part its rights or obligations under this Agreement without the express written consent of the other Party.
+         This Agreement shall be binding upon and shall inure to the benefit of each of the Party’s successors and permitted assigns.
+        </Text>
+
+        <Text style={styles.sectionTitle}>16. 	NON-ASSIGNMENT OF RIGHTS. </Text>
+        <Text style={styles.body}>{"\n"}
+        Neither party hereto shall assign in whole or in part its rights or obligations under this Agreement without the express written consent of the other Party.
+         This Agreement shall be binding upon and shall inure to the benefit of each of the Party’s successors and permitted assigns.
         </Text>
 
 
