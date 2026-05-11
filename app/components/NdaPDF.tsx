@@ -93,16 +93,19 @@ export function NdaPDF({ data }: { data: NdaData }) {
         </Text>
         {[
           ["(a)", "pricing and other financial terms, including, without limitation, quotes, charges and fees;"],
-          ["(b)", "Network routes, mapping, topologies, network architecture plans, and data center colocation information."],
-          ["(c)", "Identities of commercial partners, joint venturers, agents, and clients."],
-          ["(d)", "Data related to systems, equipment, operations, policies, or procedures."],
-          ["(e)", "Trade secrets, know-how, inventions, source codes, and methodologies."],
+          ["(b)", "network routes, mapping, topologies, network architecture plans and design information (including, without limitation, splice points, fibre counts, rights of way), information related to current or planned colocation facilities, data centres or premises wherein a Party has or plans to have a physical presence;"],
+          ["(c)", "the identities and other related information of commercial partners (including peering partners), joint venturers, agents, subcontractors, vendors, customers or clients;"],
+          ["(d)", "information or data related to systems, equipment, operations, policies, procedures or techniques; and"],
+          ["(e)", "information or data related to trade secrets, know-how, inventions, internal controls, computer or data processing programs, source code, algorithms, routines, subroutines or methodologies of a Party, its Affiliates, customers, subcontractors or vendors. "],
         ].map(([bullet, text], i) => (
           <View key={i} style={styles.listItem}>
             <Text style={styles.bullet}>{bullet}</Text>
             <Text style={styles.listText}>{text}</Text>
           </View>
         ))}
+        <Text style={styles.body}>
+             All of those referred to as (“Confidential Information”).
+        </Text>
 
         <Text style={styles.sectionTitle}>2. CONFIDENTIALITY</Text>
         <Text style={styles.body}>
