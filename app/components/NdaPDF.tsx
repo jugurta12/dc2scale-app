@@ -163,15 +163,40 @@ export function NdaPDF({ data }: { data: NdaData }) {
              legally obliged to disclose and (iii) to consult with the Disclosing Party with a view to agreeing the timing and content of such disclosure.
         </Text>
 
-        <Text style={styles.sectionTitle}>10. RETURN OR DESTRUCTION</Text>
+        <Text style={styles.sectionTitle}>6. LIMITATIONS.</Text>
         <Text style={styles.body}>
-          Upon termination, each Receiving Party shall destroy or return all Confidential Information and certify such destruction in writing.
+           The Receiving Party shall have obtained from such employees and officers binding obligations of confidence no less onerous than those set out in this Agreement.
+           The Receiving Party undertakes to enforce such undertakings and to be responsible for breaches of the undertakings by such persons.
         </Text>
 
-        <Text style={styles.sectionTitle}>20. GOVERNING LAW AND JURISDICTION</Text>
+        <Text style={styles.sectionTitle}>7. USE.  </Text>
         <Text style={styles.body}>
-          This Agreement shall be governed by and construed in accordance with the laws of France.
+          Confidential Information exchanged between the Parties is considered loaned for use solely in connection with considering, evaluating and negotiating 
+          the contemplated Agreement and use other than for such purpose shall be considered to be a breach of this Agreement.
         </Text>
+
+        <Text style={styles.sectionTitle}>7. USE.  </Text>
+        <Text style={styles.body}>
+          Confidential Information exchanged between the Parties is considered loaned for use solely in connection with considering, evaluating and negotiating 
+          the contemplated Agreement and use other than for such purpose shall be considered to be a breach of this Agreement.
+        </Text>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {/* Signature Page - Force break to keep together if needed */}
         <View style={styles.signatureSection}>
