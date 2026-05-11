@@ -25,10 +25,9 @@ const styles = StyleSheet.create({
   bold: { fontFamily: "Helvetica-Bold" },
   whereas: { fontSize: 8.5, marginBottom: 10, marginTop: 5, lineHeight: 1.4 },
 
-  // Nouveaux Styles Signatures (Match capture d'écran)
   signaturePage: {
     marginTop: 20,
-    break: 'before', // Force le saut de page
+    break: 'before', 
   },
   signatureMainTitle: {
     fontFamily: "Helvetica-Bold",

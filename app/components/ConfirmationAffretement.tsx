@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     marginBottom: 2,
   },
-  // TABLEAU DÉTAIL EXPÉDITION
+  // tabl detail exp
   detailTable: {
     border: "1pt solid #000",
     borderTop: "0pt",
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 8,
   },
-  // TABLEAU PRIX
+  // tabl prix
   prixTable: {
     border: "1pt solid #000",
     borderTop: "0pt",
@@ -238,15 +238,15 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
 
         <View style={styles.divider} />
 
-        {/* TITRE — Utilise numeroCommande si présent, sinon reference */}
+        {/* titre*/}
         <Text style={styles.title}>
             Confirmation d'affrètement N° {data.numeroCommande || data.reference}
         </Text>
 
-        {/* TABLEAU PRINCIPAL */}
+        {/* tabl principal*/}
         <View style={styles.mainTable}>
 
-          {/* Ligne 1 headers */}
+          {/*headers */}
           <View style={styles.tableRow}>
             <View style={styles.cellLegal}>
               <Text style={styles.cellHeader}>Réaffrètement interdit</Text>
@@ -259,7 +259,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
             </View>
           </View>
 
-          {/* Ligne 2 — mentions légales + expéditeur + date enlèvement */}
+          {/* mentions légales + expéditeur + date enlèvement */}
           <View style={styles.tableRow}>
             <View style={styles.cellLegal}>
               <Text>{MENTIONS_LEGALES}</Text>
@@ -273,7 +273,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
             </View>
           </View>
 
-          {/* Ligne 3 — headers destinataire */}
+          {/* headers destinataire */}
           <View style={styles.tableRow}>
             <View style={[styles.cellLegal, { borderRight: "0pt" }]} />
             <View style={styles.cellMiddle}>
@@ -284,7 +284,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
             </View>
           </View>
 
-          {/* Ligne 4 — destinataire + date livraison */}
+          {/* destinataire + date livraison */}
           <View style={styles.tableRowLast}>
             <View style={[styles.cellLegal, { borderRight: "0pt" }]} />
             <View style={styles.cellMiddle}>
@@ -298,7 +298,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
 
         </View>
 
-        {/* TABLEAU DÉTAIL EXPÉDITION */}
+        {/* tabl detail exp */}
         <View style={styles.detailTable}>
           <Text style={styles.detailHeader}>
             Détail expédition – Detail of Shipment – Sendung
@@ -316,7 +316,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
           </View>
         </View>
 
-        {/* TABLEAU PRIX */}
+        {/* tabl prix */}
         <View style={styles.prixTable}>
           <Text style={styles.prixHeader}>
             Prix de gré à gré incluant l'indexation gazole – price agreed
@@ -337,7 +337,7 @@ export function ConfirmationAffretementPDF({ data }: { data: AffretementData }) 
           </View>
         </View>
 
-        {/* FOOTER */}
+        {/* footer */}
         <View style={styles.footer}>
           <Text>
             <Text style={styles.footerBold}>ATTENTION : </Text>
