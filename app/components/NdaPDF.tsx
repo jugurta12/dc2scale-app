@@ -164,7 +164,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
         </Text>
 
         <Text style={styles.sectionTitle}>6. LIMITATIONS.</Text>
-        <Text style={styles.body}>
+        <Text style={styles.body}>{"\n"}
            The Receiving Party shall have obtained from such employees and officers binding obligations of confidence no less onerous than those set out in this Agreement.
            The Receiving Party undertakes to enforce such undertakings and to be responsible for breaches of the undertakings by such persons.
         </Text>
