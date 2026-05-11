@@ -354,7 +354,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
   {/* BLOC PARTNER */}
   <View style={{ marginTop: 40 }}>
    <Text style={styles.partyTitle}>
-      [{data.partnerName.toUpperCase()}] 
+      {data.partnerName.toUpperCase()}
     </Text>
     <Text style={styles.labelSmall}>Authorised signature:{"\n\n"}</Text>
 
