@@ -109,27 +109,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>2. CONFIDENTIALITY</Text>
         <Text style={styles.body}>
-         The Parties hereby agree that Confidential Information includes items and materials disclosed by or to the Parties or their “Affiliates”. {"\n\n"}
-
-         The Confidential Information can appear in many forms including, but not limited to, proposals, business plans, digital or written presentations, 
-         financial statements, legal documents, corporate information and documents, tax statements, trade secrets, marketing materials, customers list, 
-         suppliers information, maps, blueprints, company’s reports, technical information, codes, handwritten notes, drawings, company’s e-mails, 
-         on display screens or in computer memory storage devices and media. Confidential Information includes also in specifics, without limitation, 
-         the following relating to either the Parties or their Affiliates: {"\n\n"}
-
-         (a)	 pricing and other financial terms, including, without limitation, quotes, charges and fees;<br />
-         (b) 	network routes, mapping, topologies, network architecture plans and design information (including, without 
-	    limitation, splice points, fibre counts, rights of way), information related to current or planned colocation facilities, 
-	    data centres or premises wherein a Party has or plans to have a physical presence;<br />
-        (c) 	the identities and other related information of commercial partners (including peering partners), joint venturers, 
-	    agents, subcontractors, vendors, customers or clients;<br />
-        (d) 	information or data related to systems, equipment, operations, policies, procedures or techniques; and <br />
-        (e) 	information or data related to trade secrets, know-how, inventions, internal controls, computer or data 
-	    processing programs, source code, algorithms, routines, subroutines or methodologies of a Party, its Affiliates, 
-	    customers, subcontractors or vendors. 
-
-
-
+         Except as specifically permitted by the terms of this Agreement, and in consideration of the disclosure of the Confidential Information, each Party agrees to keep confidential any Confidential Information furnished to each other for a period of three (3) years from the date of disclosure, whether or not such date is before the effective date of this Agreement. The Receiving Party shall:
         </Text>
         
 
