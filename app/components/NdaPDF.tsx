@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/render
 const styles = StyleSheet.create({
   page: { fontFamily: "Helvetica", fontSize: 9, padding: 50, color: "#111", backgroundColor: "#fff" },
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 },
-  logo: { width: 100, height: 35 },
+  logo: { width: 120, height: 35 },
   refBox: { fontSize: 7, color: "#666", textAlign: "right" },
   title: { fontSize: 14, fontFamily: "Helvetica-Bold", textAlign: "center", marginTop: 10, marginBottom: 4 },
   subtitle: { fontSize: 8, color: "#444", textAlign: "center", marginBottom: 20, fontStyle: "italic" },
@@ -101,7 +101,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
           <View style={styles.tableRow}>
             <Text style={styles.tableLabel}>Between</Text>
             <Text style={styles.tableValue}>
-              <Text style={styles.bold}>{data.partnerName}</Text> Reg. No: {data.partnerRegNumber || "__________"}(the “Partner”) whose registered office address is {data.partnerAddress}
+              <Text style={styles.bold}>{data.partnerName}</Text> Reg. No: {data.partnerRegNumber || "__________"} (the “Partner”) whose registered office address is {data.partnerAddress}
             </Text>
           </View>
           <View style={styles.tableRowLast}>
