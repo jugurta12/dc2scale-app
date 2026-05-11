@@ -83,6 +83,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>1. CONFIDENTIAL INFORMATION</Text>
         <Text style={styles.body}>
+            {"\n"}
            The Parties hereby agree that Confidential Information includes items and materials disclosed by or to the Parties or their “Affiliates”. {"\n\n"}
 
             The Confidential Information can appear in many forms including, but not limited to, proposals, business plans, digital or written presentations, 
@@ -109,7 +110,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>2. CONFIDENTIALITY</Text>
         <Text style={styles.body}>
-         Except as specifically permitted by the terms of this Agreement, and in consideration of the disclosure of the Confidential Information, each Party agrees to keep confidential any Confidential Information furnished to each other for a period of three (3) years from the date of disclosure, whether or not such date is before the effective date of this Agreement. The Receiving Party shall:
+         {"\n"}Except as specifically permitted by the terms of this Agreement, and in consideration of the disclosure of the Confidential Information, each Party agrees to keep confidential any Confidential Information furnished to each other for a period of three (3) years from the date of disclosure, whether or not such date is before the effective date of this Agreement. The Receiving Party shall:
         </Text>
 
         {[
@@ -130,12 +131,12 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         <Text style={styles.sectionTitle}>3. TERM</Text>
         <Text style={styles.body}>
-         The Agreement shall expire either three (3) years from the date hereof, or upon the termination of the evaluation or pursuit of the Agreement between the Parties; however, the Receiving Party’s obligations with respect to the Confidential Information shall survive for three (3) years following the date of such termination of this Agreement (the “Term”).
+         {"\n"}The Agreement shall expire either three (3) years from the date hereof, or upon the termination of the evaluation or pursuit of the Agreement between the Parties; however, the Receiving Party’s obligations with respect to the Confidential Information shall survive for three (3) years following the date of such termination of this Agreement (the “Term”).
         </Text>
 
         <Text style={styles.sectionTitle}>4. CONDITIONS</Text>
         <Text style={styles.body}>
-          {"\n\n"}Confidential Information shall not include any information:
+          {"\n"}Confidential Information shall not include any information:
         </Text>
         {[
           ["(a)", "which is generally available to the public through no wrongful act of the Receiving Party;"],
