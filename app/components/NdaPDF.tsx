@@ -170,7 +170,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
         </Text>
 
         <Text style={styles.sectionTitle}>7. USE.  </Text>
-        <Text style={styles.body}>
+        <Text style={styles.body}>{"\n"}
           Confidential Information exchanged between the Parties is considered loaned for use solely in connection with considering, evaluating and negotiating 
           the contemplated Agreement and use other than for such purpose shall be considered to be a breach of this Agreement.
         </Text>
