@@ -421,23 +421,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
             This Agreement shall be governed by and construed in accordance with the laws of France.
         </Text>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {/* Signature Page - Force break to keep together if needed */}
-        {/* SECTION SIGNATURE - NOUVELLE PAGE AUTOMATIQUE */}
+        {/*signature*/}
 <View break style={styles.signaturePage}>
   <Text style={styles.signatureMainTitle}>
     IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed as of the date below. 
