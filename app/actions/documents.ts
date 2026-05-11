@@ -17,7 +17,8 @@ export async function createFullDocument(formData: any) {
       return { success: false, reference: "", error: "Utilisateur introuvable" }
     }
 
-    const isNda = formData.docType === "NDA / Accord de confidentialité"
+    const typeLower = (formData.docType || "").toLowerCase();
+  const isNda = typeLower.includes("nda") || typeLower.includes("confidentialité");
 
     let expediteurId: string | undefined
     let destinataireId: string | undefined

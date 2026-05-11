@@ -315,7 +315,7 @@ export function NdaPDF({ data }: { data: NdaData }) {
 
         {/* Signature Page - Force break to keep together if needed */}
         {/* SECTION SIGNATURE - NOUVELLE PAGE AUTOMATIQUE */}
-<View style={styles.signaturePage}>
+<View break style={styles.signaturePage}>
   <Text style={styles.signatureMainTitle}>
     IN WITNESS WHEREOF, the Parties hereto have caused this Agreement to be duly executed as of the date below. [cite: 89]
   </Text>
