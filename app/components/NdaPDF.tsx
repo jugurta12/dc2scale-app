@@ -240,6 +240,13 @@ export function NdaPDF({ data }: { data: NdaData }) {
          This Agreement shall be binding upon and shall inure to the benefit of each of the Party’s successors and permitted assigns.
         </Text>
 
+        <Text style={styles.sectionTitle}>17. 	PROPERTY OF DISCLOSING PARTY. </Text>
+        <Text style={styles.body}>{"\n"}
+        All Confidential Information, unless otherwise specified in writing, shall remain the sole and exclusive property of the Disclosing Party and shall be used by the Receiving Party only for the purpose intended herein, except as may be required by applicable law or legal process. 
+        {"\n\n"}The Receiving Party shall not disclose, reproduce, or disseminate such Confidential Information to anyone, except to those employees and consultants (including employees and consultants of its parent, subsidiaries and affiliates) on a need-to-know basis for purposes of this Agreement.
+        {"\n\n"}If the Receiving Party is requested by a government entity or other third party to disclose any Confidential Information, it will promptly notify the Disclosing Party to allow the latter to seek a protective order or take other appropriate action, at the sole cost and expense of the Disclosing Party.  The Receiving Party will also cooperate in the Disclosing Party's efforts to obtain a protective order or other reasonable assurance that confidential treatment will be afforded the Confidential Information.  If in the absence of a protective order the Receiving Party is compelled as a matter of law to disclose the Confidential Information based upon the written opinion of the Receiving Party’s counsel, the Receiving Party may disclose to the government entity or other third party compelling the disclosure only the part of the Confidential Information as required by law to be disclosed. 
+        </Text>
+
         <Text style={styles.sectionTitle}>16. 	NON-ASSIGNMENT OF RIGHTS. </Text>
         <Text style={styles.body}>{"\n"}
         Neither party hereto shall assign in whole or in part its rights or obligations under this Agreement without the express written consent of the other Party.
