@@ -228,10 +228,16 @@ export function NdaPDF({ data }: { data: NdaData }) {
          transmission which confirms receipt of such transmission, to the applicable address or fax number noted above or as may be notified to the other Party in accordance with this clause.
         </Text>
 
-        <Text style={styles.sectionTitle}>14. 	NOTICES.  </Text>
+        <Text style={styles.sectionTitle}>15. 	SEVERABILITY.  </Text>
         <Text style={styles.body}>{"\n"}
-        Any notices required by this Agreement shall be in writing and shall be given in hand or sent by first class mail or by courier service or by facsimile
-         transmission which confirms receipt of such transmission, to the applicable address or fax number noted above or as may be notified to the other Party in accordance with this clause.
+        If any provision of this Agreement is or becomes illegal, invalid or unenforceable in any jurisdiction, that shall not affectthe legality,
+         validity or enforceability in that jurisdiction of any other provision of this Agreement. 
+        </Text>
+
+        <Text style={styles.sectionTitle}>15. 	SEVERABILITY.  </Text>
+        <Text style={styles.body}>{"\n"}
+        If any provision of this Agreement is or becomes illegal, invalid or unenforceable in any jurisdiction, that shall not affectthe legality,
+         validity or enforceability in that jurisdiction of any other provision of this Agreement. 
         </Text>
 
 
