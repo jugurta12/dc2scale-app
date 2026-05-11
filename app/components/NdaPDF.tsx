@@ -14,6 +14,46 @@ const styles = StyleSheet.create({
   tableRowLast: { flexDirection: "row" },
   tableLabel: { width: "20%", backgroundColor: "#eee", padding: 6, fontSize: 8, fontFamily: "Helvetica-Bold", borderRightWidth: 1, borderColor: "#000" },
   tableValue: { width: "80%", padding: 6, fontSize: 8, lineHeight: 1.4 },
+
+  // Tableau des Définitions
+  definitionTable: { 
+    borderWidth: 1, 
+    borderColor: "#000", 
+    marginBottom: 20 
+  },
+  definitionHeader: { 
+    flexDirection: "row", 
+    backgroundColor: "#10b981", 
+    color: "#fff", 
+    borderBottomWidth: 1, 
+    borderColor: "#000" 
+  },
+  definitionRow: { 
+    flexDirection: "row", 
+    borderBottomWidth: 1, 
+    borderColor: "#000" 
+  },
+  definitionRowLast: { 
+    flexDirection: "row" 
+  },
+  columnLeft: { 
+    width: "30%", 
+    padding: 6, 
+    borderRightWidth: 1, 
+    borderColor: "#000" 
+  },
+  columnRight: { 
+    width: "70%", 
+    padding: 6 
+  },
+  textBoldSmall: { 
+    fontFamily: "Helvetica-Bold", 
+    fontSize: 8 
+  },
+  textNormalSmall: { 
+    fontSize: 8, 
+    lineHeight: 1.4 
+  },
   
   // Contenu Textuel
   sectionTitle: { fontFamily: "Helvetica-Bold", fontSize: 9, marginTop: 12, marginBottom: 5, textDecoration: "underline" },
@@ -112,8 +152,92 @@ export function NdaPDF({ data }: { data: NdaData }) {
         </View>
 
         <Text style={styles.whereas}>
-          WHEREAS, in order to facilitate a possible transaction between the Parties, certain Confidential Information may be disclosed or made available by DC2SCALE or the Partner (collectively, the “Parties”).
+          WHEREAS, in order to facilitate a possible transaction between the Parties, certain Confidential Information
+           (as such term is hereinafter defined) may be disclosed or made available by DC2SCALE or the Partner
+            (collectively, the “Parties”, and each a “Party”) to the other Party. (The Party that receives or has 
+            access to Confidential Information is referred to herein as a “Receiving Party” and the Party whose Confidential 
+            Information is disclosed or made available to a Receiving Party is referred to herein as a “Disclosing Party”.){"\n\n"}
         </Text>
+
+        <Text style={styles.whereas}>
+          NOW, THEREFORE, in consideration of the mutual covenants and agreements contained herein and other good and valuable consideration,
+           the receipt and sufficiency of which are hereby acknowledged, and intended to be legally binding, the Parties hereby agree as follows:{"\n\n"}
+        </Text>
+
+
+
+        {/* tabl def*/}
+        <View style={styles.definitionTable}>
+          {/* Header */}
+          <View style={styles.definitionHeader}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>TERMS / EXPRESSIONS</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textBoldSmall}>MEANINGS</Text>
+            </View>
+          </View>
+
+          {/* Affiliates */}
+          <View style={styles.definitionRow}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>“Affiliates”</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textNormalSmall}>
+                For the purposes of this Agreement, the “Affiliates” of a Party shall mean any person or entity that directly or indirectly, through one or more intermediaries, is controlled by, controls or is under common control with such Party, where “control” means that a person, directly or indirectly, has the power to direct or cause the direction of the management and policies of the other person, whether through the ownership of voting shares, by contract, or otherwise.
+              </Text>
+            </View>
+          </View>
+
+          {/* Confidential Information */}
+          <View style={styles.definitionRow}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>“Confidential Information”</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textNormalSmall}>
+                Shall mean all information of a confidential nature of the Disclosing Party, whether written or oral, that is or may be disclosed or made available to the Receiving Party. Any information of a confidential nature disclosed or provided by a Party under this Agreement, whether disclosed or communicated verbally, in writing or in any other tangible form, and whether relating the list provided in section 1.
+              </Text>
+            </View>
+          </View>
+
+          {/* Disclosing Party */}
+          <View style={styles.definitionRow}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>“Disclosing Party”</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textNormalSmall}>
+                The Party who discloses or provides Confidential Information pursuant to this Agreement.
+              </Text>
+            </View>
+          </View>
+
+          {/* Purpose */}
+          <View style={styles.definitionRow}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>“Purpose”</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textNormalSmall}>
+                The purpose for which the Confidential Information is disclosed or provided to the other Party under this Agreement as set out in clause 2.
+              </Text>
+            </View>
+          </View>
+
+          {/* Receiving Party */}
+          <View style={styles.definitionRowLast}>
+            <View style={styles.columnLeft}>
+              <Text style={styles.textBoldSmall}>“Receiving Party”</Text>
+            </View>
+            <View style={styles.columnRight}>
+              <Text style={styles.textNormalSmall}>
+                The party who receives Confidential Information pursuant to this Agreement.
+              </Text>
+            </View>
+          </View>
+        </View>
 
         <Text style={styles.sectionTitle}>1. CONFIDENTIAL INFORMATION</Text>
         <Text style={styles.body}>
