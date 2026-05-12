@@ -5,19 +5,21 @@ import { createFullDocument, getContacts } from "@/app/actions/documents"
 import { pdf } from "@react-pdf/renderer"
 import { ConfirmationAffretementPDF } from "@/app/components/ConfirmationAffretement"
 import { NdaPDF } from "@/app/components/NdaPDF"
+import { RemoteHandsPDF } from "@/app/components/RemoteHandsPDF" // Ton nouveau composant
 import Image from 'next/image'
 
 import ExpediteurBlock from "@/app/components/forms/ExpediteurBlock"
 import DestinataireBlock from "@/app/components/forms/DestinataireBlock"
 import DetailsBlock from "../../components/forms/DetailsBlock"
 import NdaPartnerBlock from "@/app/components/forms/NdaPartnerBlock"
+import RemoteHandsBlock from "@/app/components/forms/RemoteHandsBlock" // Ton nouveau bloc
 
 export default function CreateDocumentPage() {
   const { id } = useParams()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [dbContacts, setDbContacts] = useState<any[]>([])
-  const [dbClients, setDbClients] = useState<any[]>([]) // Liste dédiée aux NDA
+  const [dbClients, setDbClients] = useState<any[]>([]) 
   const [suggestions, setSuggestions] = useState<{ type: string, list: any[] }>({ type: '', list: [] })
 
   const [formData, setFormData] = useState({
@@ -47,29 +49,37 @@ export default function CreateDocumentPage() {
     effectiveDate: new Date().toISOString().split("T")[0],
   })
 
+  // --- CATALOGUE REMOTE HANDS (VALEURS PAR DÉFAUT DU PDF) ---
+  const [remoteHandsForm, setRemoteHandsForm] = useState({
+    level1HO: "55",   // [cite: 25]
+    level1HNO: "240", // [cite: 25]
+    level2HO: "90",   // [cite: 25]
+    level2HNO: "300", // [cite: 25]
+    level3HO: "150",  // [cite: 25]
+    level3HNO: "350", // [cite: 25]
+    clientName: ""
+  })
+
   useEffect(() => {
     async function loadContacts() {
       try {
         const data = await getContacts()
-        // On sépare bien les sources de données
         setDbContacts([...data.expediteurs, ...data.destinataires])
-        setDbClients(data.clients || []) 
+        setDbClients(data.clients || [])
       } catch (error) { console.error(error) }
     }
     loadContacts()
   }, [])
 
-  // --- LOGIQUE AFFRÈTEMENT ---
-  const handleTypeAhead = (e: React.ChangeEvent<HTMLInputElement>, field: 'expediteurNom' | 'destinataireNom') => {
+  const handleTypeAhead = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const value = e.target.value
-    setFormData({ ...formData, [field]: value })
+    setFormData({ ...formData, [field as keyof typeof formData]: value })
     if (value.length > 1) {
       const filtered = dbContacts.filter(c => c.nom.toLowerCase().includes(value.toLowerCase()))
       setSuggestions({ type: field, list: filtered })
     } else { setSuggestions({ type: '', list: [] }) }
   }
 
-  // --- LOGIQUE NDA (UNIQUEMENT CLIENTS) ---
   const handleNdaTypeAhead = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setNdaForm({ ...ndaForm, partnerName: value })
@@ -81,12 +91,7 @@ export default function CreateDocumentPage() {
 
   const selectContact = (contact: any, type: string) => {
     if (type === 'nda') {
-      setNdaForm({ 
-        ...ndaForm, 
-        partnerName: contact.nom, 
-        partnerRegNumber: contact.numeroImmatriculation || "", 
-        partnerAddress: contact.adresse || "" 
-      })
+      setNdaForm({ ...ndaForm, partnerName: contact.nom, partnerRegNumber: contact.numeroImmatriculation || "", partnerAddress: contact.adresse || "" })
     } else if (type === 'expediteurNom') {
       setFormData({ ...formData, expediteurNom: contact.nom, expediteurRaison: contact.raison || "", expediteurAdresse: contact.adresse || "", expediteurTransport: contact.transport || "", expediteurContact: contact.contact || "" })
     } else {
@@ -159,6 +164,26 @@ export default function CreateDocumentPage() {
     }
   }
 
+  // --- SOUMISSION CATALOGUE (PAS D'ENREGISTREMENT) ---
+  const handleRemoteHandsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const blob = await pdf(<RemoteHandsPDF data={remoteHandsForm} />).toBlob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `Catalogue-RemoteHands-${remoteHandsForm.clientName || "DC2SCALE"}.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error(err)
+      alert("Erreur lors de la génération du catalogue.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const inputClass = "w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm outline-none focus:border-emerald-500 transition-colors placeholder-zinc-600 text-zinc-100"
   const inputSmClass = "w-full bg-zinc-800/50 border border-zinc-800 rounded-lg px-4 py-2 text-sm outline-none focus:border-zinc-600 transition-colors placeholder-zinc-600 text-zinc-100"
 
@@ -174,6 +199,39 @@ export default function CreateDocumentPage() {
     </aside>
   )
 
+  // ── REMOTE HANDS (id 6) ──
+  if (id === "6") return (
+    <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <SidebarContent />
+      <div className="flex-1 flex flex-col">
+        <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
+          Dc2Scale / Catalogue / <span className="text-zinc-300 ml-1">Remote Hands</span>
+        </header>
+        <main className="flex-1 p-8 overflow-y-auto">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-2xl font-semibold text-white mb-2">Catalogue Remote Hands</h1>
+            <p className="text-zinc-400 text-sm mb-8">Les prix sont pré-remplis automatiquement. Modifiez-les si nécessaire.</p>
+            <form onSubmit={handleRemoteHandsSubmit} className="space-y-4">
+              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                <label className="text-xs text-zinc-500 mb-1 block">Nom du client (Optionnel)</label>
+                <input 
+                  className={inputClass} 
+                  value={remoteHandsForm.clientName} 
+                  onChange={e => setRemoteHandsForm({...remoteHandsForm, clientName: e.target.value})}
+                  placeholder="Ex: Google France"
+                />
+              </div>
+              <RemoteHandsBlock formData={remoteHandsForm} setFormData={setRemoteHandsForm} inputClass={inputClass} />
+              <button type="submit" disabled={loading} className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all">
+                {loading ? "Génération..." : "Générer le Catalogue PDF"}
+              </button>
+            </form>
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+
   // ── NDA (id 7) ──
   if (id === "7") return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -185,32 +243,9 @@ export default function CreateDocumentPage() {
         <main className="flex-1 p-8 overflow-y-auto">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-2xl font-semibold text-white mb-2">NDA / Accord de confidentialité</h1>
-            <p className="text-zinc-400 text-sm mb-8">Renseignez les informations du partenaire pour générer le document.</p>
             <form onSubmit={handleNdaSubmit} className="space-y-4">
-              <NdaPartnerBlock 
-                formData={ndaForm} 
-                setFormData={setNdaForm} 
-                inputClass={inputClass}
-                handleTypeAhead={handleNdaTypeAhead}
-                suggestions={suggestions}
-                selectContact={(c: any) => selectContact(c, 'nda')}
-              />
-              <div className="flex items-center gap-3 pt-2">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`flex-1 py-3 rounded-lg font-medium text-sm transition-all ${loading ? "bg-zinc-800 text-zinc-500" : "bg-emerald-500 hover:bg-emerald-400 text-black"}`}
-                >
-                  {loading ? "Génération du PDF..." : "Générer le NDA"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.back()}
-                  className="px-5 py-3 rounded-lg text-sm text-zinc-400 border border-zinc-700 hover:border-zinc-500 transition-colors"
-                >
-                  Annuler
-                </button>
-              </div>
+              <NdaPartnerBlock formData={ndaForm} setFormData={setNdaForm} inputClass={inputClass} handleTypeAhead={handleNdaTypeAhead} suggestions={suggestions} selectContact={c => selectContact(c, 'nda')} />
+              <button type="submit" disabled={loading} className="w-full py-3 bg-emerald-500 rounded-lg font-medium text-black">Générer le NDA</button>
             </form>
           </div>
         </main>
@@ -218,10 +253,7 @@ export default function CreateDocumentPage() {
     </div>
   )
 
-  // ── Affrètement (id 8) ──
   if (id !== "8") return <div className="text-white text-center mt-20">Modèle non configuré</div>
-
-  const commonProps = { formData, setFormData, handleTypeAhead, suggestions, selectContact, inputClass, inputSmClass }
 
   return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -234,26 +266,11 @@ export default function CreateDocumentPage() {
           <h1 className="text-2xl font-semibold text-white mb-8">Confirmation d'Affrètement</h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <ExpediteurBlock {...commonProps} />
-              <DestinataireBlock {...commonProps} />
+              <ExpediteurBlock formData={formData} setFormData={setFormData} handleTypeAhead={handleTypeAhead} suggestions={suggestions} selectContact={selectContact} inputClass={inputClass} inputSmClass={inputSmClass} />
+              <DestinataireBlock formData={formData} setFormData={setFormData} handleTypeAhead={handleTypeAhead} suggestions={suggestions} selectContact={selectContact} inputClass={inputClass} inputSmClass={inputSmClass} />
             </div>
             <DetailsBlock formData={formData} setFormData={setFormData} inputClass={inputClass} />
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className={`flex-1 py-3 rounded-lg font-medium text-sm transition-all ${loading ? "bg-zinc-800 text-zinc-500" : "bg-emerald-500 hover:bg-emerald-400 text-black"}`}
-              >
-                {loading ? "Génération du PDF..." : "Valider l'affrètement"}
-              </button>
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="px-5 py-3 rounded-lg text-sm text-zinc-400 border border-zinc-700 hover:border-zinc-500 transition-colors"
-              >
-                Annuler
-              </button>
-            </div>
+            <button type="submit" disabled={loading} className="w-full py-3 bg-emerald-500 rounded-lg font-medium text-black">Valider l'affrètement</button>
           </form>
         </main>
       </div>
