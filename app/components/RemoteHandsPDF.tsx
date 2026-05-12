@@ -6,7 +6,7 @@ const gray = "#6b7280"
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 10, color: dark, backgroundColor: "#fff" },
- 
+  
   // HEADER
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, paddingBottom: 16, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
   logo: { width: 110, height: 36 },
