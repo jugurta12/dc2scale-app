@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   twoCol: { flexDirection: "row", gap: 16, marginTop: 16, marginBottom: 16 },
 
   // SLA BOX
-  slaBox: { flex: 1, borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 6, padding: 12 },
+  slaBox: { flex: 1, borderWidth: 1, borderColor: "#e5e7eb", backgroundColor: "#f3f3f4", borderRadius: 6, padding: 12 },
   slaHeader: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   slaIcon: { fontSize: 10, color: teal, marginRight: 6 },
   slaTitle: { fontSize: 12, marginTop: 2 , fontFamily: "Helvetica-Bold", color: teal },
@@ -130,6 +130,7 @@ export function RemoteHandsPDF({ data }: any) {
                 <Text style={{ fontSize: 8, color: gray }}>(Business Hours)</Text>
                 <View style={[styles.slaBadge, styles.slaHO]}><Text>1H SLA</Text></View>
               </View>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: "#e5e7eb", marginVertical: 8 }} />
               <Text style={styles.slaText}>Monday - Friday{"\n"}08:00 AM - 06:00 PM</Text>
             </View>
 
@@ -139,6 +140,7 @@ export function RemoteHandsPDF({ data }: any) {
                 <Text style={{ fontSize: 8, color: gray }}>(Non-Business Hours)</Text>
                 <View style={[styles.slaBadge, styles.slaHNO]}><Text>2H SLA</Text></View>
               </View>
+              <View style={{ borderBottomWidth: 1, borderBottomColor: "#e5e7eb", marginVertical: 8 }} />
               <Text style={styles.slaText}>Monday - Friday: 06:00 PM - 07:59 AM{"\n"}Weekends & Public Holidays</Text>
             </View>
           </View>
