@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
   // HEADER
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, paddingBottom: 16, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
-   logo: { width: 150, height: 35 },
+  logo: { width: 150, height: 35 },
   headerRight: { alignItems: "flex-end" },
   headerTitle: { fontSize: 18, fontFamily: "Helvetica-Bold", color: teal },
   headerSubtitle: { fontSize: 8, color: gray, letterSpacing: 1, marginTop: 2 },
