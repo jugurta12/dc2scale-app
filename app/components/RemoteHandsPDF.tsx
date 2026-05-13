@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   slaTitle: { fontSize: 12, marginTop: 2 , fontFamily: "Helvetica-Bold", color: teal },
   slaRow: { marginBottom: 8 },
   slaBadge: { borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, fontFamily: "Helvetica-Bold", color: "#fff", alignSelf: "flex-start", marginBottom: 2 },
-  slaHO: { backgroundColor: teal },
+  slaHO: { backgroundColor: teal, marginLeft : 70 },
   slaHNO: { backgroundColor: "#ef4444" },
   slaText: { fontSize: 8, color: gray, lineHeight: 1.5 },
 
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
   tiersTitle: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   tierItem: { flexDirection: "row", alignItems: "flex-start", marginBottom: 8 },
   tierDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: teal, marginRight: 8, marginTop: 2 },
-  tierLabel: { fontSize: 9, fontFamily: "Helvetica-Bold", color: dark },
-  tierDesc: { fontSize: 8, color: gray, lineHeight: 1.4 },
+  tierLabel: { fontSize: 12, fontFamily: "Helvetica-Bold", color: dark },
+  tierDesc: { fontSize: 11, color: gray, lineHeight: 1.4 },
 
   // PRICING TABLE
   pricingTitle: { flexDirection: "row", alignItems: "center", marginBottom: 10, marginTop: 8 },
   table: { borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 4 },
-  tableHeaderRow: { flexDirection: "row", backgroundColor: "#1f2937" },
+  tableHeaderRow: { flexDirection: "row", backgroundColor: "#151515" },
   tableHeaderCell: { padding: 8, fontSize: 8 },
   tableHeaderMain: { flex: 2, borderRightWidth: 1, borderRightColor: "#374151" },
   tableHeaderRate: { flex: 1, borderRightWidth: 1, borderRightColor: "#374151", alignItems: "center" },
