@@ -125,7 +125,6 @@ export function RemoteHandsPDF({ data }: any) {
               </Svg>
               <Text style={styles.slaTitle}>Service Level Agreement</Text>
             </View>
-
             <View style={styles.slaRow}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 2 }}>
                 <Text style={{ fontFamily: "Helvetica-Bold", fontSize: 9 }}>HO</Text>
