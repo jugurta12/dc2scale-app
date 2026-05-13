@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   // WHAT IS
   sectionTitle: { fontSize: 12, fontFamily: "Helvetica-Bold", color: dark, marginBottom: 6 },
   
-  accentBar: { width: 3, backgroundColor: teal, marginRight: 8, borderRadius: 2 },
+  accentBar: { width: 3, height: 18, backgroundColor: teal, marginRight: 8, borderRadius: 2, marginTop: -6 },
   sectionTitleRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   bodyText: { fontSize: 9, color: gray, lineHeight: 1.6, textAlign: "justify", marginBottom: 6 },
   bold: { fontFamily: "Helvetica-Bold" },
