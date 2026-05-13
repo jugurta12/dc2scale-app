@@ -118,14 +118,13 @@ export function RemoteHandsPDF({ data }: any) {
           {/* SLA BOX */}
           <View style={styles.slaBox}>
             <View style={styles.slaHeader}>
-            <Svg width="14" height="14" viewBox="0 0 24 24" style={{ marginRight: 5 }}>
-            <Line x1="10" x2="14" y1="2" y2="2" stroke="#2ecc71" strokeWidth={2} />
-            <Line x1="12" x2="15" y1="14" y2="11" stroke="#2ecc71" strokeWidth={2} />
-            <Circle cx="12" cy="14" r="8" stroke="#2ecc71" strokeWidth={2} />
-          </Svg>
-    
-    <Text style={styles.slaTitle}>Service Level Agreement</Text>
-  </View>
+              <Svg width="14" height="14" viewBox="0 0 24 24" style={{ marginRight: 5 }}>
+                <Line x1="10" x2="14" y1="2" y2="2" stroke="#2ecc71" strokeWidth={2} />
+                <Line x1="12" x2="15" y1="14" y2="11" stroke="#2ecc71" strokeWidth={2} />
+                <Circle cx="12" cy="14" r="8" stroke="#2ecc71" strokeWidth={2} />
+              </Svg>
+              <Text style={styles.slaTitle}>Service Level Agreement</Text>
+            </View>
 
             <View style={styles.slaRow}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 2 }}>
