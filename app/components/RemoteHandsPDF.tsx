@@ -1,15 +1,16 @@
-import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer"
+import { Document, Page, Text, View, StyleSheet, Image, Svg, Line, Circle} from "@react-pdf/renderer"
 
 const teal = "#10b981"
 const dark = "#111827"
 const gray = "#6b7280"
 
 const styles = StyleSheet.create({
+  
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 10, color: dark, backgroundColor: "#fff" },
 
   // HEADER
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, paddingBottom: 16, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
-  logo: { width: 110, height: 36 },
+   logo: { width: 150, height: 35 },
   headerRight: { alignItems: "flex-end" },
   headerTitle: { fontSize: 18, fontFamily: "Helvetica-Bold", color: teal },
   headerSubtitle: { fontSize: 8, color: gray, letterSpacing: 1, marginTop: 2 },
@@ -117,9 +118,14 @@ export function RemoteHandsPDF({ data }: any) {
           {/* SLA BOX */}
           <View style={styles.slaBox}>
             <View style={styles.slaHeader}>
-              <Text style={styles.slaIcon}>⏱ </Text>
-              <Text style={styles.slaTitle}>Service Level Agreement</Text>
-            </View>
+            <Svg width="14" height="14" viewBox="0 0 24 24" style={{ marginRight: 5 }}>
+            <Line x1="10" x2="14" y1="2" y2="2" stroke="#2ecc71" strokeWidth={2} />
+            <Line x1="12" x2="15" y1="14" y2="11" stroke="#2ecc71" strokeWidth={2} />
+            <Circle cx="12" cy="14" r="8" stroke="#2ecc71" strokeWidth={2} />
+          </Svg>
+    
+    <Text style={styles.slaTitle}>Service Level Agreement</Text>
+  </View>
 
             <View style={styles.slaRow}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 2 }}>
