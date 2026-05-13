@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   slaIcon: { fontSize: 10, color: teal, marginRight: 6 },
   slaTitle: { fontSize: 12, marginTop: 2 , fontFamily: "Helvetica-Bold", color: teal },
   slaRow: { marginBottom: 8 },
-  slaBadge: { borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, fontFamily: "Helvetica-Bold", color: "#fff", alignSelf: "flex-start", marginBottom: 2 },
-  slaHO: { backgroundColor: teal, marginLeft : 70 },
+  slaBadge: { borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, fontFamily: "Helvetica-Bold", color: "#fff", alignSelf: "flex-start", marginBottom: 2,  marginLeft : 68 },
+  slaHO: { backgroundColor: teal, marginLeft : 90 },
   slaHNO: { backgroundColor: "#ef4444" },
   slaText: { fontSize: 8, color: gray, lineHeight: 1.5 },
 
