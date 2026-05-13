@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   slaBox: { flex: 1, borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 6, padding: 12 },
   slaHeader: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   slaIcon: { fontSize: 10, color: teal, marginRight: 6 },
-  slaTitle: { fontSize: 10, fontFamily: "Helvetica-Bold", color: teal },
+  slaTitle: { fontSize: 12, marginTop: 2 , fontFamily: "Helvetica-Bold", color: teal },
   slaRow: { marginBottom: 8 },
   slaBadge: { borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, fontFamily: "Helvetica-Bold", color: "#fff", alignSelf: "flex-start", marginBottom: 2 },
   slaHO: { backgroundColor: teal },
