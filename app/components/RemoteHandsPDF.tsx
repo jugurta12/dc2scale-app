@@ -114,7 +114,6 @@ export function RemoteHandsPDF({ data }: any) {
 
         {/* TWO COLUMNS: SLA + TIERS */}
         <View style={styles.twoCol}>
-
           {/* SLA BOX */}
           <View style={styles.slaBox}>
             <View style={styles.slaHeader}>
