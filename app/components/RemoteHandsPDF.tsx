@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 
   // WHAT IS
   sectionTitle: { fontSize: 12, fontFamily: "Helvetica-Bold", color: dark, marginBottom: 6 },
+  
   accentBar: { width: 3, backgroundColor: teal, marginRight: 8, borderRadius: 2 },
   sectionTitleRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   bodyText: { fontSize: 9, color: gray, lineHeight: 1.6, textAlign: "justify", marginBottom: 6 },
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
   twoCol: { flexDirection: "row", gap: 16, marginTop: 16, marginBottom: 16 },
 
   // SLA BOX
-  slaBox: { flex: 1, borderWidth: 1, borderColor: "#e5e7eb", backgroundColor: "#f3f3f4", borderRadius: 6, padding: 12 },
+  slaBox: { flex: 1, borderWidth: 1, borderColor: "#e5e7eb", backgroundColor: "#f9fafb", borderRadius: 6, padding: 12 },
   slaHeader: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   slaIcon: { fontSize: 10, color: teal, marginRight: 6 },
   slaTitle: { fontSize: 12, marginTop: 2 , fontFamily: "Helvetica-Bold", color: teal },
@@ -103,14 +104,14 @@ export function RemoteHandsPDF({ data }: any) {
         <View style={styles.sectionTitleRow}>
           <View style={styles.accentBar} />
           <Text style={styles.sectionTitle}>What is "Hands & Eyes"?</Text>
-        </View>
-        <Text style={styles.bodyText}>
-          It is a professional service provided by DC2SCALE. This service allows you to request the intervention of an on-site technician at any time to troubleshoot a production incident, install new drives, or simply plug in a cable.
-        </Text>
-        <Text style={styles.bodyText}>
-          You can easily create a new ticket by selecting the{" "}
-          <Text style={styles.bold}>"Hands & Eyes Global"</Text> department. This is highly recommended as our certified technicians will automatically determine and select the appropriate support level among the three available tiers for your request.
-        </Text>
+          </View>
+          <Text style={styles.bodyText}>
+            It is a professional service provided by DC2SCALE. This service allows you to request the intervention of an on-site technician at any time to troubleshoot a production incident, install new drives, or simply plug in a cable.
+          </Text>
+          <Text style={styles.bodyText}>
+            You can easily create a new ticket by selecting the{" "}
+            <Text style={styles.bold}>"Hands & Eyes Global"</Text> department. This is highly recommended as our certified technicians will automatically determine and select the appropriate support level among the three available tiers for your request.
+          </Text>
 
         {/* TWO COLUMNS: SLA + TIERS */}
         <View style={styles.twoCol}>
