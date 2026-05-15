@@ -48,11 +48,16 @@ export default function CreateDocumentPage() {
 
   // --- 4. PROPOSITION DE COLOCATION (ID 10) ---
   const [quoteForm, setQuoteForm] = useState({
-    client: { nom: "", adresse: "", mail: "", tel: "", tva: "" },
-    mrcItems: [{ name: "Hébergement d'une Baie 2 KVA", description: "Baie APC 42U (600x1070mm) en cold-corridor", quantity: 1, unitPrice: 670, tvaRate: 20, isRecurring: true }],
-    nrcItems: [{ name: "Frais d'activation de la baie", description: "", quantity: 1, unitPrice: 500, tvaRate: 20, isRecurring: false }],
-    docType: "Proposition de Colocation"
-  })
+  client: { 
+    nom: "", adresse: "", mail: "", tel: "", tva: "",
+    banque: "Société Générale",
+    iban: "FR76 3000 3022 6500 0200 0708 441",
+    bic: "SOGEFRPP"
+  },
+  mrcItems: [{ name: "Hébergement d'une Baie 2 KVA", description: "Baie APC 42U...", quantity: 1, unitPrice: 670, tvaRate: 20, isRecurring: true }],
+  nrcItems: [{ name: "Frais d'activation de la baie", description: "", quantity: 1, unitPrice: 500, tvaRate: 20, isRecurring: false }],
+  docType: "Proposition de Colocation"
+})
 
   useEffect(() => {
     async function loadContacts() {
