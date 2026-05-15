@@ -95,3 +95,56 @@ export async function getContacts() {
 export async function getRecentDocuments() {
   return await prisma.document.findMany({ orderBy: { createdAt: "desc" }, take: 5 })
 }
+
+export async function createQuoteDocument(formData: any) {
+  try {
+    const session = await getServerSession(authOptions)
+    const user = await prisma.user.findUnique({ where: { email: session?.user?.email || "" } })
+
+    // 1. Calculs automatiques
+    const allItems = [...formData.mrcItems, ...formData.nrcItems];
+    
+    let totalHT = 0;
+    let totalTVA = 0;
+
+    allItems.forEach(item => {
+      const lineHT = item.quantity * item.unitPrice;
+      const lineTVA = lineHT * (item.tvaRate / 100);
+      totalHT += lineHT;
+      totalTVA += lineTVA;
+    });
+
+    const totalTTC = totalHT + totalTVA;
+
+    // 2. Création du Document
+    const newDoc = await prisma.document.create({
+      data: {
+        type: "Proposition de Colocation",
+        reference: `PROP-${Date.now()}`,
+        authorId: user?.id,
+        // On stocke les infos client/émetteur dans le JSON 'data'
+        data: {
+          client: formData.client,
+          emetteur: formData.emetteur,
+          totals: { totalHT, totalTVA, totalTTC }
+        },
+        // On crée les lignes de produits en même temps (Relation)
+        items: {
+          create: allItems.map(item => ({
+            description: item.name,
+            details: item.description,
+            quantity: parseFloat(item.quantity),
+            unitPrice: parseFloat(item.unitPrice),
+            tvaRate: parseFloat(item.tvaRate),
+            isRecurring: item.isRecurring
+          }))
+        }
+      }
+    });
+
+    return { success: true, reference: newDoc.reference };
+  } catch (error) {
+    console.error(error);
+    return { success: false };
+  }
+}
