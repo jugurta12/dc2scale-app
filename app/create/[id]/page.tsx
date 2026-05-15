@@ -16,6 +16,22 @@ import NdaPartnerBlock from "@/app/components/forms/NdaPartnerBlock"
 import RemoteHandsBlock from "@/app/components/forms/RemoteHandsBlock"
 import QuoteBlock from "@/app/components/forms/QuoteBlock" 
 
+// ── COMPOSANT SIDEBAR SORTI POUR ÉVITER LE BUG DE FOCUS ──
+const SidebarContent = ({ router }: { router: any }) => (
+  <aside className="w-52 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1">
+    <div className="mb-6 flex justify-center w-full">
+      <Image src="/assets/Datacenters.png" alt="Logo" width={120} height={40} priority />
+    </div>
+    <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mt-2 mb-1">PRODUCTION</p>
+    <button 
+      onClick={() => router.push('/')} 
+      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-zinc-400 hover:bg-zinc-800/60 transition-colors"
+    >
+      <span className="text-lg">⊞</span> Modèles
+    </button>
+  </aside>
+)
+
 export default function CreateDocumentPage() {
   const { id } = useParams()
   const router = useRouter()
@@ -46,18 +62,18 @@ export default function CreateDocumentPage() {
     level1HO: "55", level1HNO: "240", level2HO: "90", level2HNO: "300", level3HO: "150", level3HNO: "350", clientName: ""
   })
 
-  // --- 4. PROPOSITION DE COLOCATION (ID 10) ---
+  // --- 4. PROPOSITION DE COLOCATION (ID 1 ou 10) ---
   const [quoteForm, setQuoteForm] = useState({
-  client: { 
-    nom: "", adresse: "", mail: "", tel: "", tva: "",
-    banque: "Société Générale",
-    iban: "FR76 3000 3022 6500 0200 0708 441",
-    bic: "SOGEFRPP"
-  },
-  mrcItems: [{ name: "Hébergement d'une Baie 2 KVA", description: "Baie APC 42U...", quantity: 1, unitPrice: 670, tvaRate: 20, isRecurring: true }],
-  nrcItems: [{ name: "Frais d'activation de la baie", description: "", quantity: 1, unitPrice: 500, tvaRate: 20, isRecurring: false }],
-  docType: "Proposition de Colocation"
-})
+    client: { 
+      nom: "", adresse: "", mail: "", tel: "", tva: "",
+      banque: "Société Générale",
+      iban: "FR76 3000 3022 6500 0200 0708 441",
+      bic: "SOGEFRPP"
+    },
+    mrcItems: [{ name: "Hébergement d'une Baie 2 KVA", description: "Baie APC 42U (600x1070mm) en cold-corridor", quantity: 1, unitPrice: 670, tvaRate: 20, isRecurring: true }],
+    nrcItems: [{ name: "Frais d'activation de la baie", description: "", quantity: 1, unitPrice: 500, tvaRate: 20, isRecurring: false }],
+    docType: "Proposition de Colocation"
+  })
 
   useEffect(() => {
     async function loadContacts() {
@@ -70,7 +86,7 @@ export default function CreateDocumentPage() {
     loadContacts()
   }, [])
 
-  // --- LOGIQUE DYNAMIQUE QUOTE ---
+  // --- LOGIQUES DYNAMIQUES QUOTE ---
   const addQuoteItem = (isRecurring: boolean) => {
     const newItem = { name: "", description: "", quantity: 1, unitPrice: 0, tvaRate: 20, isRecurring }
     if (isRecurring) setQuoteForm({ ...quoteForm, mrcItems: [...quoteForm.mrcItems, newItem] })
@@ -83,6 +99,18 @@ export default function CreateDocumentPage() {
   }
 
   // --- HANDLERS COMMUNS ---
+
+  const handleNdaTypeAhead = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value
+  setNdaForm(prev => ({ ...prev, partnerName: value }))
+  
+  if (value.length > 1) {
+    const filtered = dbClients.filter(c => c.nom.toLowerCase().includes(value.toLowerCase()))
+    setSuggestions({ type: 'nda', list: filtered })
+  } else {
+    setSuggestions({ type: '', list: [] })
+  }
+}
   const handleTypeAhead = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const value = e.target.value
     setFormData({ ...formData, [field as keyof typeof formData]: value })
@@ -92,19 +120,34 @@ export default function CreateDocumentPage() {
     } else { setSuggestions({ type: '', list: [] }) }
   }
 
-  const handleNdaTypeAhead = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setNdaForm({ ...ndaForm, partnerName: value })
-    if (value.length > 1) {
-      const filtered = dbClients.filter(c => c.nom.toLowerCase().includes(value.toLowerCase()))
-      setSuggestions({ type: 'nda', list: filtered })
-    } else { setSuggestions({ type: '', list: [] }) }
+  const handleQuoteTypeAhead = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value
+  setQuoteForm(prev => ({
+    ...prev,
+    client: { ...prev.client, nom: value }
+  }))
+
+  if (value.length > 1) {
+    const filtered = dbClients.filter(c => 
+      c.nom.toLowerCase().includes(value.toLowerCase())
+    )
+    setSuggestions({ type: 'quote', list: filtered })
+  } else {
+    setSuggestions({ type: '', list: [] })
   }
+}
+
+  
 
   const selectContact = (contact: any, type: string) => {
     if (type === 'nda') {
       setNdaForm({ ...ndaForm, partnerName: contact.nom, partnerRegNumber: contact.numeroImmatriculation || "", partnerAddress: contact.adresse || "" })
-    } else if (type === 'expediteurNom') {
+    } else if (type === 'quote') {
+    setQuoteForm({ 
+      ...quoteForm, 
+      client: { ...quoteForm.client, nom: contact.nom, adresse: contact.adresse || "" } 
+    }) 
+  }else if (type === 'expediteurNom') {
       setFormData({ ...formData, expediteurNom: contact.nom, expediteurRaison: contact.raison || "", expediteurAdresse: contact.adresse || "", expediteurTransport: contact.transport || "", expediteurContact: contact.contact || "" })
     } else {
       setFormData({ ...formData, destinataireNom: contact.nom, destinataireRaison: contact.raison || "", destinataireAdresse: contact.adresse || "" })
@@ -112,7 +155,6 @@ export default function CreateDocumentPage() {
     setSuggestions({ type: '', list: [] })
   }
 
-  // --- FONCTION DE TÉLÉCHARGEMENT ---
   const downloadPdf = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob); const a = document.createElement("a")
     a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url)
@@ -120,36 +162,6 @@ export default function CreateDocumentPage() {
   }
 
   // --- SOUMISSIONS ---
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true)
-    try {
-      const result = await createFullDocument(formData)
-      if (result.success) {
-        const blob = await pdf(<ConfirmationAffretementPDF data={{...formData, reference: result.reference} as any} />).toBlob()
-        downloadPdf(blob, `affretement-${result.reference}.pdf`)
-      }
-    } catch (error) { console.error(error) } finally { setLoading(false) }
-  }
-
-  const handleNdaSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true)
-    try {
-      const result = await createFullDocument({ ...ndaForm, docType: "NDA / Accord de confidentialité" })
-      if (result.success) {
-  const blob = await pdf(<NdaPDF data={{ ...ndaForm, reference: result.reference || "" }} />).toBlob()
-  downloadPdf(blob, `NDA-${ndaForm.partnerName}.pdf`)
-}
-    } catch (err) { console.error(err) } finally { setLoading(false) }
-  }
-
-  const handleRemoteHandsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoading(true)
-    try {
-      const blob = await pdf(<RemoteHandsPDF data={remoteHandsForm} />).toBlob()
-      downloadPdf(blob, `Catalogue-RemoteHands.pdf`)
-    } catch (err) { console.error(err) } finally { setLoading(false) }
-  }
-
   const handleQuoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true)
     try {
@@ -161,35 +173,65 @@ export default function CreateDocumentPage() {
     } catch (err) { console.error(err) } finally { setLoading(false) }
   }
 
+  const handleNdaSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); setLoading(true)
+    try {
+      const result = await createFullDocument({ ...ndaForm, docType: "NDA / Accord de confidentialité" })
+      if (result.success) {
+        const blob = await pdf(<NdaPDF data={{ ...ndaForm, reference: result.reference || "" }} />).toBlob()
+        downloadPdf(blob, `NDA-${ndaForm.partnerName}.pdf`)
+      }
+    } catch (err) { console.error(err) } finally { setLoading(false) }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); setLoading(true)
+    try {
+      const result = await createFullDocument(formData)
+      if (result.success) {
+        const blob = await pdf(<ConfirmationAffretementPDF data={{...formData, reference: result.reference} as any} />).toBlob()
+        downloadPdf(blob, `affretement-${result.reference}.pdf`)
+      }
+    } catch (error) { console.error(error) } finally { setLoading(false) }
+  }
+
+  const handleRemoteHandsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); setLoading(true)
+    try {
+      const blob = await pdf(<RemoteHandsPDF data={remoteHandsForm} />).toBlob()
+      downloadPdf(blob, `Catalogue-RemoteHands.pdf`)
+    } catch (err) { console.error(err) } finally { setLoading(false) }
+  }
+
   const inputClass = "w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm outline-none focus:border-emerald-500 transition-colors placeholder-zinc-600 text-zinc-100"
   const inputSmClass = "w-full bg-zinc-800/50 border border-zinc-800 rounded-lg px-4 py-2 text-sm outline-none focus:border-zinc-600 transition-colors placeholder-zinc-600 text-zinc-100"
 
-  const SidebarContent = () => (
-    <aside className="w-52 shrink-0 bg-zinc-900 border-r border-zinc-800 flex flex-col py-6 px-3 gap-1">
-      <div className="mb-6 flex justify-center w-full">
-        <Image src="/assets/Datacenters.png" alt="Logo" width={120} height={40} className="priority" />
-      </div>
-      <p className="text-zinc-500 text-[10px] font-semibold uppercase tracking-widest px-3 mt-2 mb-1">PRODUCTION</p>
-      <button onClick={() => router.push('/')} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-zinc-400 hover:bg-zinc-800/60 transition-colors">
-        <span>⊞</span> Modèles
-      </button>
-    </aside>
-  )
-
-  // ── PROPOSITION DE COLOCATION (ID 10) ──
-  if (id === "10") return (
+  // ── RENDU PROPOSITION (ID 1) ──
+  // ── RENDU PROPOSITION (ID 1) ──
+  if (id === "1") return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <SidebarContent />
+      <SidebarContent router={router} />
       <div className="flex-1 flex flex-col">
         <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
-          Dc2Scale / Documents / <span className="text-zinc-300 ml-1">Proposition de Colocation</span>
+          Dc2Scale / Propositions / <span className="text-zinc-300 ml-1">Proposition de Colocation</span>
         </header>
         <main className="flex-1 p-8 overflow-y-auto">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-semibold text-white mb-2">Nouvelle Proposition</h1>
             <p className="text-zinc-400 text-sm mb-8">Saisissez les produits (MRC) et frais (NRC) pour générer le devis.</p>
             <form onSubmit={handleQuoteSubmit} className="space-y-4">
-              <QuoteBlock quoteForm={quoteForm} setQuoteForm={setQuoteForm} addQuoteItem={addQuoteItem} removeQuoteItem={removeQuoteItem} inputClass={inputClass} />
+              <QuoteBlock 
+                quoteForm={quoteForm} 
+                setQuoteForm={setQuoteForm} 
+                addQuoteItem={addQuoteItem} 
+                removeQuoteItem={removeQuoteItem} 
+                inputClass={inputClass}
+                // --- LES LIGNES MANQUANTES SONT ICI ---
+                handleTypeAhead={handleQuoteTypeAhead}
+                suggestions={suggestions}
+                selectContact={(c : any) => selectContact(c, 'quote')}
+                // --------------------------------------
+              />
               <button type="submit" disabled={loading} className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all">
                 {loading ? "Génération..." : "Valider et Générer la Proposition"}
               </button>
@@ -200,10 +242,10 @@ export default function CreateDocumentPage() {
     </div>
   )
 
-  // ── REMOTE HANDS (id 6) ──
+  // ── RENDU REMOTE HANDS (ID 6) ──
   if (id === "6") return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <SidebarContent />
+      <SidebarContent router={router} />
       <div className="flex-1 flex flex-col">
         <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
           Dc2Scale / Documents / <span className="text-zinc-300 ml-1">Remote Hands</span>
@@ -221,13 +263,13 @@ export default function CreateDocumentPage() {
     </div>
   )
 
-  // ── NDA (id 7) ──
+  // ── RENDU NDA (ID 7) ──
   if (id === "7") return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <SidebarContent />
+      <SidebarContent router={router} />
       <div className="flex-1 flex flex-col">
         <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
-          Dc2Scale / Documents / <span className="text-zinc-300 ml-1">NDA / Accord de confidentialité</span>
+          Dc2Scale / Documents / <span className="text-zinc-300 ml-1">NDA</span>
         </header>
         <main className="flex-1 p-8 overflow-y-auto">
           <div className="max-w-2xl mx-auto">
@@ -244,9 +286,10 @@ export default function CreateDocumentPage() {
 
   if (id !== "8") return <div className="text-white text-center mt-20">Modèle non configuré</div>
 
+  // ── RENDU AFFRÈTEMENT (ID 8) ──
   return (
     <div className="flex min-h-screen bg-zinc-950 text-zinc-100" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <SidebarContent />
+      <SidebarContent router={router} />
       <div className="flex-1 flex flex-col">
         <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
           Dc2Scale / CircularDC / <span className="text-zinc-300 ml-1">Confirmation d'affrètement</span>
@@ -266,3 +309,4 @@ export default function CreateDocumentPage() {
     </div>
   )
 }
+

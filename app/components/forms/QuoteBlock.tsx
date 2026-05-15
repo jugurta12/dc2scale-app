@@ -2,7 +2,17 @@
 
 import { Trash2, Plus } from "lucide-react"
 
-export default function QuoteBlock({ quoteForm, setQuoteForm, addQuoteItem, removeQuoteItem, inputClass }: any) {
+// On ajoute handleTypeAhead, suggestions et selectContact dans les props
+export default function QuoteBlock({ 
+  quoteForm, 
+  setQuoteForm, 
+  addQuoteItem, 
+  removeQuoteItem, 
+  inputClass,
+  handleTypeAhead,    // Ajouté
+  suggestions,        // Ajouté
+  selectContact       // Ajouté
+}: any) {
   
   const updateItem = (index: number, field: string, value: any, isRecurring: boolean) => {
     const listKey = isRecurring ? 'mrcItems' : 'nrcItems';
@@ -21,16 +31,42 @@ export default function QuoteBlock({ quoteForm, setQuoteForm, addQuoteItem, remo
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4">
         <h2 className="text-sm font-semibold text-zinc-300 uppercase tracking-wider">Informations Client</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input placeholder="Nom du client" className={inputClass} value={quoteForm.client.nom} onChange={e => updateClient('nom', e.target.value)} />
+          
+          {/* --- INPUT NOM AVEC SUGGESTIONS --- */}
+          <div className="relative">
+            <input 
+              placeholder="Nom du client" 
+              className={inputClass} 
+              value={quoteForm.client.nom} 
+              onChange={handleTypeAhead} // On utilise handleQuoteTypeAhead passé par le parent
+              autoComplete="off"
+            />
+            
+            {suggestions?.type === 'quote' && suggestions.list.length > 0 && (
+              <div className="absolute z-50 w-full bg-zinc-800 border border-zinc-700 mt-1 rounded-lg shadow-2xl max-h-48 overflow-y-auto">
+                {suggestions.list.map((c: any, i: number) => (
+                  <div
+                    key={i}
+                    onClick={() => selectContact(c)}
+                    className="px-4 py-2 hover:bg-emerald-500 hover:text-black cursor-pointer text-sm text-zinc-200 border-b border-zinc-700/50 last:border-0 transition-colors"
+                  >
+                    {c.nom} <span className="text-[10px] opacity-50 ml-2">— {c.adresse?.substring(0, 20)}...</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* ---------------------------------- */}
+
           <input placeholder="N° de TVA" className={inputClass} value={quoteForm.client.tva} onChange={e => updateClient('tva', e.target.value)} />
           <textarea placeholder="Adresse complète" className={`${inputClass} md:col-span-2`} rows={2} value={quoteForm.client.adresse} onChange={e => updateClient('adresse', e.target.value)} />
           <input placeholder="Email" className={inputClass} value={quoteForm.client.mail} onChange={e => updateClient('mail', e.target.value)} />
           <input placeholder="Téléphone" className={inputClass} value={quoteForm.client.tel} onChange={e => updateClient('tel', e.target.value)} />
         </div>
 
-        {/* INFORMATION DE PAIEMENT (Valeurs SocGen par défaut) */}
+        {/* INFORMATION DE PAIEMENT */}
         <div className="pt-4 border-t border-zinc-800 mt-4">
-          <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Informations de paiement (Destinataire des fonds)</h2>
+          <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Informations de paiement</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-1">
               <label className="text-[10px] text-zinc-500 uppercase ml-1">Établissement</label>

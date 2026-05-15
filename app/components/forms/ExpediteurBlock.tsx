@@ -4,7 +4,7 @@ interface ExpediteurBlockProps {
   setFormData: (data: any) => void;
   handleTypeAhead: (e: any, field: any) => void;
   suggestions: any;
-  selectContact: (contact: any, type: 'exp' | 'dest') => void;
+  selectContact: (contact: any, type: 'destinataireNom' | 'expediteurNom') => void;
   inputClass: string;
   inputSmClass: string;
 }
@@ -26,10 +26,10 @@ export default function ExpediteurBlock({
           value={formData.expediteurNom}
           onChange={(e) => handleTypeAhead(e, 'expediteurNom')}
         />
-        {suggestions.type === 'exp' && suggestions.list.length > 0 && (
+        {suggestions.type === 'expediteurNom' && suggestions.list.length > 0 && (
           <div className="absolute z-10 w-full bg-zinc-800 border border-zinc-700 mt-1 rounded-lg shadow-2xl overflow-hidden">
             {suggestions.list.map((s: any, i: number) => (
-              <div key={i} onClick={() => selectContact(s, 'exp')} className="p-3 hover:bg-emerald-500 hover:text-black cursor-pointer text-sm transition-colors">
+              <div key={i} onClick={() => selectContact(s, 'expediteurNom')} className="p-3 hover:bg-emerald-500 hover:text-black cursor-pointer text-sm transition-colors">
                 {s.nom} <span className="opacity-50 text-xs ml-2">— {s.adresse}</span>
               </div>
             ))}

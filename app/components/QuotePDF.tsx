@@ -51,9 +51,9 @@ export function QuotePDF({ data }: any) {
   // Calculs totaux
   const mrcHT = data.mrcItems.reduce((acc: number, item: any) => acc + (item.quantity * item.unitPrice), 0);
   const nrcHT = data.nrcItems.reduce((acc: number, item: any) => acc + (item.quantity * item.unitPrice), 0);
-  
+  const currentTvaRate = data.mrcItems[0]?.tvaRate || 20;
   const totalHT = mrcHT + nrcHT;
-  const totalTVA = totalHT * 0.20; // Basé sur ton document à 20% [cite: 45]
+  const totalTVA = totalHT * (currentTvaRate / 100);
   const totalTTC = totalHT + totalTVA;
 
   const TableHeader = () => (
@@ -111,7 +111,7 @@ export function QuotePDF({ data }: any) {
                 </View>
                 <Text style={styles.colQty}>{item.quantity}</Text>
                 <Text style={styles.colPrice}>{parseFloat(item.unitPrice).toFixed(2)} €</Text>
-                <Text style={styles.colTva}>{item.tvaRate}%</Text>
+                <Text style={styles.colTva}>{currentTvaRate}%</Text>
                 <Text style={styles.colTotal}>{(item.quantity * item.unitPrice).toFixed(2)} €</Text>
               </View>
             ))}
