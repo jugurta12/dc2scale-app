@@ -14,7 +14,6 @@ export async function createFullDocument(formData: any) {
 
     const typeLower = (formData.docType || "").toLowerCase();
     
-    // Détection du type de document
     const isNda = typeLower.includes("nda") || typeLower.includes("confidentialité");
     const isQuote = typeLower.includes("proposition") || typeLower.includes("devis");
 
@@ -24,7 +23,28 @@ export async function createFullDocument(formData: any) {
 
     // --- LOGIQUE DEVIS (PROPOSITION DE COLOCATION) ---
     if (isQuote) {
-      // Calculs financiers automatiques
+      // 1. SAUVEGARDE DU CLIENT D'ABORD (C'est cette partie qui manquait)
+      if (formData.client?.nom) {
+        const clientSaved = await prisma.client.upsert({
+          where: { nom: formData.client.nom },
+          update: {
+          adresse: formData.client.adresse || "",
+          mail: formData.client.mail || "",      // Ajouté
+          telephone: formData.client.tel || "",  // Ajouté
+          tva: formData.client.tva || "",
+          },
+          create: {
+            nom: formData.client.nom,
+            adresse: formData.client.adresse || "",
+            mail: formData.client.mail || "",
+            telephone: formData.client.tel || "",
+            tva: formData.client.tva || "",
+          },
+        })
+        clientId = clientSaved.id // Récupération de l'ID pour lier au document
+      }
+
+      // 2. Calculs financiers automatiques
       const mrcItems = formData.mrcItems || [];
       const nrcItems = formData.nrcItems || [];
       const allItems = [...mrcItems, ...nrcItems];
@@ -41,12 +61,13 @@ export async function createFullDocument(formData: any) {
 
       const totalTTC = totalHT + totalTVA;
 
-      // Création du document avec ses items liés
+      // 3. Création du document
       const newQuote = await prisma.document.create({
         data: {
           type: "Proposition de Colocation",
           reference: `PROP-${Date.now()}`,
           authorId: user.id,
+          clientId: clientId, // Liaison au client sauvegardé
           data: {
             client: formData.client,
             emetteur: {
@@ -64,7 +85,6 @@ export async function createFullDocument(formData: any) {
             },
             totals: { totalHT, totalTVA, totalTTC }
           },
-          // Enregistrement des produits et frais dans la table liée
           items: {
             create: allItems.map((item: any) => ({
               description: item.name,
@@ -72,7 +92,7 @@ export async function createFullDocument(formData: any) {
               quantity: parseFloat(item.quantity),
               unitPrice: parseFloat(item.unitPrice),
               tvaRate: parseFloat(item.tvaRate) || 20,
-              isRecurring: item.isRecurring // Distingue MRC de NRC
+              isRecurring: item.isRecurring 
             }))
           }
         }
@@ -153,7 +173,7 @@ export async function createFullDocument(formData: any) {
 export async function getContacts() {
   const expediteurs = await prisma.expediteur.findMany({ select: { nom: true, adresse: true, raison: true, contact: true, transport: true } })
   const destinataires = await prisma.destinataire.findMany({ select: { nom: true, adresse: true, raison: true } })
-  const clients = await prisma.client.findMany({ select: { nom: true, adresse: true, numeroImmatriculation: true } })
+  const clients = await prisma.client.findMany({ select: { nom: true, adresse: true, numeroImmatriculation: true, mail: true, telephone: true, tva: true } })
   return { expediteurs, destinataires, clients }
 }
 
