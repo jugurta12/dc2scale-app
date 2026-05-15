@@ -28,6 +28,8 @@ model Document {
   destinataire   Destinataire? @relation(fields: [destinataireId], references: [id])
   expediteur     Expediteur?   @relation(fields: [expediteurId], references: [id])
   client         Client?       @relation(fields: [clientId], references: [id])
+  items      QuoteItem[]?
+  authorId   String?
 }
 
 model Destinataire {
@@ -64,4 +66,17 @@ model Template {
   description String?
   actif       Boolean  @default(true)
   createdAt   DateTime @default(now())
+}
+
+
+model QuoteItem {
+  id          String   @id @default(cuid())
+  description String   // Nom du produit
+  details     String?  // Description longue
+  quantity    Float    @default(1)
+  unitPrice   Float    // Prix unitaire HT
+  tvaRate     Float    @default(20) // Taux TVA (ex: 20)
+  isRecurring Boolean  @default(true) // true = MRC, false = NRC
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 }

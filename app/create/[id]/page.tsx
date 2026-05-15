@@ -205,7 +205,7 @@ export default function CreateDocumentPage() {
       <SidebarContent />
       <div className="flex-1 flex flex-col">
         <header className="h-12 border-b border-zinc-800 flex items-center px-6 text-zinc-500 text-sm">
-          Dc2Scale / Catalogue / <span className="text-zinc-300 ml-1">Remote Hands</span>
+          Dc2Scale / Documents / <span className="text-zinc-300 ml-1">Remote Hands</span>
         </header>
         <main className="flex-1 p-8 overflow-y-auto">
           <div className="max-w-3xl mx-auto">
