@@ -145,7 +145,7 @@ export default function CreateDocumentPage() {
     } else if (type === 'quote') {
     setQuoteForm({ 
       ...quoteForm, 
-      client: { ...quoteForm.client, nom: contact.nom, adresse: contact.adresse || "" } 
+      client: { ...quoteForm.client, nom: contact.nom, adresse: contact.adresse || "", mail: contact.mail || "", tel: contact.telephone || "", tva: contact.tva || "" } 
     }) 
   }else if (type === 'expediteurNom') {
       setFormData({ ...formData, expediteurNom: contact.nom, expediteurRaison: contact.raison || "", expediteurAdresse: contact.adresse || "", expediteurTransport: contact.transport || "", expediteurContact: contact.contact || "" })

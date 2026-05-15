@@ -55,8 +55,12 @@ model Client {
   nom                  String     @unique
   adresse              String?
   numeroImmatriculation String?
+  mail                  String?
+  telephone             String?
+  tva                   String?
   createdAt            DateTime   @default(now())
   documents            Document[]
+  
 }
 
 model Template {
