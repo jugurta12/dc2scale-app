@@ -142,9 +142,9 @@ export function QuotePDF({ data }: any) {
         <View style={styles.footer}>
           <View style={styles.paymentBox}>
             <Text style={[styles.itemTitle, { color: teal, marginBottom: 5 }]}>Informations de paiement</Text>
-            <Text style={{ fontSize: 8 }}>Établissement: Société Générale</Text>
-            <Text style={styles.ibanText}>IBAN: FR76 3000 3022 6500 0200 0708 441</Text>
-            <Text style={styles.ibanText}>BIC: SOGEFRPP</Text>
+            <Text style={{ fontSize: 8 }}>Établissement: {data.client.banque}</Text>
+            <Text style={styles.ibanText}>IBAN: {data.client.iban}</Text>
+            <Text style={styles.ibanText}>BIC: {data.client.bic}</Text>
           </View>
           
           <View style={styles.summaryBox}>
