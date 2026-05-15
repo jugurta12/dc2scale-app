@@ -28,8 +28,7 @@ model Document {
   destinataire   Destinataire? @relation(fields: [destinataireId], references: [id])
   expediteur     Expediteur?   @relation(fields: [expediteurId], references: [id])
   client         Client?       @relation(fields: [clientId], references: [id])
-  items      QuoteItem[]?
-  authorId   String?
+  items      QuoteItem[]
 }
 
 model Destinataire {

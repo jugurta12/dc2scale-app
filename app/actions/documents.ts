@@ -13,12 +13,75 @@ export async function createFullDocument(formData: any) {
     if (!user) return { success: false, reference: "", error: "Utilisateur introuvable" }
 
     const typeLower = (formData.docType || "").toLowerCase();
+    
+    // Détection du type de document
     const isNda = typeLower.includes("nda") || typeLower.includes("confidentialité");
+    const isQuote = typeLower.includes("proposition") || typeLower.includes("devis");
 
     let expediteurId: string | null = null
     let destinataireId: string | null = null
     let clientId: string | null = null
 
+    // --- LOGIQUE DEVIS (PROPOSITION DE COLOCATION) ---
+    if (isQuote) {
+      // Calculs financiers automatiques
+      const mrcItems = formData.mrcItems || [];
+      const nrcItems = formData.nrcItems || [];
+      const allItems = [...mrcItems, ...nrcItems];
+      
+      let totalHT = 0;
+      let totalTVA = 0;
+
+      allItems.forEach((item: any) => {
+        const lineHT = (parseFloat(item.quantity) || 0) * (parseFloat(item.unitPrice) || 0);
+        const lineTVA = lineHT * ((parseFloat(item.tvaRate) || 20) / 100);
+        totalHT += lineHT;
+        totalTVA += lineTVA;
+      });
+
+      const totalTTC = totalHT + totalTVA;
+
+      // Création du document avec ses items liés
+      const newQuote = await prisma.document.create({
+        data: {
+          type: "Proposition de Colocation",
+          reference: `PROP-${Date.now()}`,
+          authorId: user.id,
+          data: {
+            client: formData.client,
+            emetteur: {
+              nom: "DC2SCALE",
+              adresse: "128 Rue La Boétie, 75008 Paris",
+              mail: "admin@dc2scale.fr",
+              telephone: "01 84 20 72 17",
+              siren: "882.411.291",
+              tva: "FR95882411291"
+            },
+            paiement: {
+              banque: "Société Générale",
+              iban: "FR76 3000 3022 6500 0200 0708 441",
+              bic: "SOGEFRPP"
+            },
+            totals: { totalHT, totalTVA, totalTTC }
+          },
+          // Enregistrement des produits et frais dans la table liée
+          items: {
+            create: allItems.map((item: any) => ({
+              description: item.name,
+              details: item.description,
+              quantity: parseFloat(item.quantity),
+              unitPrice: parseFloat(item.unitPrice),
+              tvaRate: parseFloat(item.tvaRate) || 20,
+              isRecurring: item.isRecurring // Distingue MRC de NRC
+            }))
+          }
+        }
+      });
+
+      return { success: true, reference: newQuote.reference, documentId: newQuote.id };
+    }
+
+    // --- LOGIQUE NDA ---
     if (isNda) {
       const partenaire = await prisma.client.upsert({
         where: { nom: formData.partnerName },
@@ -33,7 +96,9 @@ export async function createFullDocument(formData: any) {
         },
       })
       clientId = partenaire.id
-    } else {
+    } 
+    // --- LOGIQUE AFFRÈTEMENT ---
+    else {
       const expediteur = await prisma.expediteur.upsert({
         where: { nom: formData.expediteurNom },
         update: { adresse: formData.expediteurAdresse },
@@ -93,58 +158,9 @@ export async function getContacts() {
 }
 
 export async function getRecentDocuments() {
-  return await prisma.document.findMany({ orderBy: { createdAt: "desc" }, take: 5 })
-}
-
-export async function createQuoteDocument(formData: any) {
-  try {
-    const session = await getServerSession(authOptions)
-    const user = await prisma.user.findUnique({ where: { email: session?.user?.email || "" } })
-
-    // 1. Calculs automatiques
-    const allItems = [...formData.mrcItems, ...formData.nrcItems];
-    
-    let totalHT = 0;
-    let totalTVA = 0;
-
-    allItems.forEach(item => {
-      const lineHT = item.quantity * item.unitPrice;
-      const lineTVA = lineHT * (item.tvaRate / 100);
-      totalHT += lineHT;
-      totalTVA += lineTVA;
-    });
-
-    const totalTTC = totalHT + totalTVA;
-
-    // 2. Création du Document
-    const newDoc = await prisma.document.create({
-      data: {
-        type: "Proposition de Colocation",
-        reference: `PROP-${Date.now()}`,
-        authorId: user?.id,
-        // On stocke les infos client/émetteur dans le JSON 'data'
-        data: {
-          client: formData.client,
-          emetteur: formData.emetteur,
-          totals: { totalHT, totalTVA, totalTTC }
-        },
-        // On crée les lignes de produits en même temps (Relation)
-        items: {
-          create: allItems.map(item => ({
-            description: item.name,
-            details: item.description,
-            quantity: parseFloat(item.quantity),
-            unitPrice: parseFloat(item.unitPrice),
-            tvaRate: parseFloat(item.tvaRate),
-            isRecurring: item.isRecurring
-          }))
-        }
-      }
-    });
-
-    return { success: true, reference: newDoc.reference };
-  } catch (error) {
-    console.error(error);
-    return { success: false };
-  }
+  return await prisma.document.findMany({ 
+    orderBy: { createdAt: "desc" }, 
+    take: 5,
+    include: { items: true } // Inclut les produits pour les devis récents
+  })
 }
